@@ -1,16 +1,27 @@
 'use strict';
 
-let maps = {};
+let maps = new Map();
 let width, height;
 let chunkX = 0;
 let chunkY = 0;
 let offsetX = 0;
 let offsetY = 0;
 
+let needRedisplay = true;
+
 const redisplay = () => {
+    if (!needRedisplay) {
+        requestAnimationFrame(redisplay);
+
+        return;
+    }
+
+    needRedisplay = false;
+
     const ctxt = document.getElementById('map').getContext('2d');
 
-    let bottommost, rightmost;
+    let bottommost = 0
+    let rightmost = 0;
 
     for (let i = chunkX; i < 20; i++) {
         if (rightmost >= width) break;
@@ -19,20 +30,24 @@ const redisplay = () => {
             if (bottommost >= height) break;
 
             const chunkName = '' + i + '-' + j;
-            if (typeof maps[chunkName] === 'undefined') loadMap(chunkName);
-            else ctxt.drawImage(maps[chunkName], rightmost, bottommost, 248, 175);
+
+            if (!maps.has(chunkName)) loadMap(chunkName);
+            else ctxt.drawImage(maps.get(chunkName), rightmost, bottommost, 248, 175);
 
             bottommost += 175;
         }
         bottommost = 0;
         rightmost += 248;
     }
+
+    requestAnimationFrame(redisplay);
 };
 
 const loadMap = (chunkName) => {
-    maps[chunkName] = new Image();
-    maps[chunkName].src = '/images/map/' + chunkName + '.png';
-    maps[chunkName].addEventListener('load', redisplay);
+    const  img = new Image();
+    img.src = '/images/restricted/map/' + chunkName + '.png';
+    img.addEventListener('load', postRedisplay);
+    maps.set(chunkName, img);
 };
 
 const adjustCanvas = () => {
@@ -45,12 +60,17 @@ const adjustCanvas = () => {
     canvas.height = height;
 };
 
+const postRedisplay = () => {
+    needRedisplay = true;
+};
+
 addEventListener('load', () => {
     adjustCanvas();
-    redisplay();
+
+    requestAnimationFrame(redisplay);
 });
 
 addEventListener('resize', () => {
     adjustCanvas();
-    redisplay();
+    postRedisplay();
 });
