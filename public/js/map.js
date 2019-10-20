@@ -20,8 +20,8 @@ const redisplay = () => {
 
     const ctxt = document.getElementById('map').getContext('2d');
 
-    let bottommost = 0
-    let rightmost = 0;
+    let bottommost = -offsetY;
+    let rightmost = -offsetX;
 
     for (let i = chunkX; i < 20; i++) {
         if (rightmost >= width) break;
