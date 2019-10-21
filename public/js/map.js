@@ -132,17 +132,33 @@ const adjustCanvas = () => {
     canvasRect = canvas.getBoundingClientRect();
 };
 
-let mouseDownP;
+const changeCursor = (e) => {
+    const x = e.clientX + chunkX * CHUNK_WIDTH + offsetX;
+    const y = e.clientY + chunkY * CHUNK_HEIGHT + offsetY;
+
+    const selecting = typeof (points.find(e =>
+        Math.pow(e.x - x, 2) + Math.pow(e.y - y, 2)
+        <= MARK_RADIUS * MARK_RADIUS)) !== 'undefined';
+
+    const canvas = document.getElementById('map');
+    canvas.style.cursor = selecting ? 'pointer' : 'move';
+};
+
+let isMouseDown, isMouseMoved;
 let prevX, prevY;
 
 const mouseDown = (e) => {
-    mouseDownP = true;
+    isMouseDown = true;
+    isMouseMoved = false;
     prevX = e.clientX - canvasRect.left;
     prevY = e.clientY - canvasRect.top;
 };
 
 const mouseMove = (e) => {
-    if (!mouseDownP) return;
+    isMouseMoved = true;
+    changeCursor(e);
+
+    if (!isMouseDown) return;
 
     const currentX = e.clientX - canvasRect.left;
     const currentY = e.clientY - canvasRect.top;
@@ -199,6 +215,21 @@ const mouseMove = (e) => {
     prevY = currentY;
 }
 
+const mouseUp = () => {
+    isMouseDown = false;
+};
+
+const click = (e) => {
+    if (isMouseMoved) return;
+
+    const x = e.clientX + chunkX * CHUNK_WIDTH + offsetX;
+    const y = e.clientY + chunkY * CHUNK_HEIGHT + offsetY;
+
+    const point = points
+        .find(e => Math.pow(e.x - x, 2) + Math.pow(e.y - y, 2) <= MARK_RADIUS * MARK_RADIUS);
+    if (typeof point !== 'undefined') location.href = '/flood.html?p=' + point.name;
+};
+
 const initMapPosition = () => {
     const midX = CHUNK_WIDTH * CHUNK_COUNT_X / 2;
     const midY = CHUNK_HEIGHT * CHUNK_COUNT_Y / 2;
@@ -211,10 +242,6 @@ const initMapPosition = () => {
 
     offsetX = (midX - (chunkX + countLeft) * CHUNK_WIDTH) / 2;
     offsetY = (midY - (chunkY + countUp) * CHUNK_HEIGHT) / 2;
-};
-
-const mouseUp = () => {
-    mouseDownP = false;
 };
 
 const loadPoints = () => {
@@ -242,6 +269,7 @@ window.addEventListener('load', () => {
     canvas.addEventListener('mousemove', mouseMove);
     canvas.addEventListener('mouseup', mouseUp);
     canvas.addEventListener('mouseleave', mouseUp);
+    canvas.addEventListener('click', click);
 
     loadPoints();
 });
