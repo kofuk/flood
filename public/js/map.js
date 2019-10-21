@@ -69,12 +69,21 @@ const adjustCanvas = () => {
     canvas.width = width;
     canvas.height = height;
 
-    //TODO: (screen width) > (map width)
-    endCond.chunkX = 18 - Math.floor(width / 248);
-    endCond.offsetX = width % 248;
-    //TODO: (screen height) > (map height)
-    endCond.chunkY = 20 - Math.floor(height / 175);
-    endCond.offsetY = height % 175;
+    if (width > 248 * 20) {
+        endCond.chunkX = 0;
+        endCond.offsetX = 0;
+    } else {
+        endCond.chunkX = 19 - Math.floor(width / 248);
+        endCond.offsetX = 248 - width % 248;
+    }
+
+    if (height > 175 * 20) {
+        endCond.chunkY  = 0;
+        endCond.offsetX = 0;
+    } else {
+        endCond.chunkY = 19 - Math.floor(height / 175);
+        endCond.offsetY = 175 - height % 175;
+    }
 
     canvasRect = canvas.getBoundingClientRect();
 };
