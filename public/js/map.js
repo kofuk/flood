@@ -132,16 +132,33 @@ const adjustCanvas = () => {
     canvasRect = canvas.getBoundingClientRect();
 };
 
+let prevDescriptionId = null;
+
 const changeCursor = (e) => {
     const x = e.clientX + chunkX * CHUNK_WIDTH + offsetX;
     const y = e.clientY + chunkY * CHUNK_HEIGHT + offsetY;
 
-    const selecting = typeof (points.find(e =>
-        Math.pow(e.x - x, 2) + Math.pow(e.y - y, 2)
-        <= MARK_RADIUS * MARK_RADIUS)) !== 'undefined';
+    const point = points.find(e =>
+        Math.pow(e['x'] - x, 2) + Math.pow(e['y'] - y, 2) <= MARK_RADIUS * MARK_RADIUS);
+    const selecting = typeof point !== 'undefined';
 
     const canvas = document.getElementById('map');
     canvas.style.cursor = selecting ? 'pointer' : 'move';
+
+    if (selecting) {
+        if (prevDescriptionId !== point['name']) {
+            document.getElementById('description-place-name').innerText = point['display_name'];
+            document.getElementById('description-thumbnail').src = point['img'];
+            document.getElementById('description-address').innerText = point['address'];
+            document.getElementById('description-card').classList.remove('hidden');
+            prevDescriptionId = point['name'];
+        }
+    } else {
+        if (prevDescriptionId !== null) {
+            document.getElementById('description-card').classList.add('hidden');
+            prevDescriptionId = null;
+        }
+    }
 };
 
 let isMouseDown, isMouseMoved;

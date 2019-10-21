@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: sans-serif;
 }
 
 #map {
@@ -8,4 +9,44 @@ body {
     width: 100vw;
     height: 100vh;
     cursor: move;
+}
+
+.description-card {
+    position: fixed;
+    z-index: 2;
+    background-color: white;
+    width: 80%;
+    bottom: 0;
+    margin: 0 10% 20px 10%;
+    padding: 20px 20px 50px 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, .5) 3px 5px 10px;
+    opacity: 1;
+    transition: opacity 300ms;
+    pointer-events: none;
+    border-top: solid 5px rgb(0, 98, 255);
+}
+
+.hidden {
+    opacity: 0;
+}
+
+#description-place-name {
+    font-size: 35px;
+}
+
+#description-address {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 25px;
+    opacity: .8;
+}
+
+#description-thumbnail {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 15px;
+    height: 150px;
+    border-radius: 10px;
 }
