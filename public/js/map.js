@@ -63,24 +63,24 @@ const redisplay = () => {
     if (typeof points !== 'undefined') {
         for (let i = 0; i < points.length; i++) {
             const point = points[i];
-            if (rangeLeft - MARK_RADIUS <= point.x && point.x <= rangeRight + MARK_RADIUS
-                && rangeTop - MARK_RADIUS <= point.y && point.y <= rangeButtom + MARK_RADIUS) {
+            if (rangeLeft - MARK_RADIUS <= point['x'] && point['x'] <= rangeRight + MARK_RADIUS
+                && rangeTop - MARK_RADIUS <= point['y'] && point['y'] <= rangeButtom + MARK_RADIUS) {
 
                 ctxt.fillStyle = 'rgba(0, 0, 0, .03)';
                 for (let i = 1; i <= 5; i++) {
                     ctxt.beginPath();
-                    ctxt.arc(point.x - rangeLeft + i * .8, point.y - rangeTop + i, MARK_RADIUS, 0, 2 * Math.PI, false);
+                    ctxt.arc(point['x'] - rangeLeft + i * .8, point['y'] - rangeTop + i, MARK_RADIUS, 0, 2 * Math.PI, false);
                     ctxt.fill();
                 }
 
                 ctxt.fillStyle = 'rgb(0, 98, 255)';
                 ctxt.beginPath();
-                ctxt.arc(point.x - rangeLeft, point.y - rangeTop, MARK_RADIUS, 0, 2 * Math.PI, false);
+                ctxt.arc(point['x'] - rangeLeft, point['y'] - rangeTop, MARK_RADIUS, 0, 2 * Math.PI, false);
                 ctxt.fill();
 
                 ctxt.fillStyle = 'rgb(33, 118, 255)';
                 ctxt.beginPath();
-                ctxt.arc(point.x - rangeLeft, point.y - rangeTop, MARK_RADIUS * .97, 0, 2 * Math.PI, false);
+                ctxt.arc(point['x'] - rangeLeft, point['y'] - rangeTop, MARK_RADIUS * .97, 0, 2 * Math.PI, false);
                 ctxt.fill();
             }
         }
@@ -243,8 +243,8 @@ const click = (e) => {
     const y = e.clientY + chunkY * CHUNK_HEIGHT + offsetY;
 
     const point = points
-        .find(e => Math.pow(e.x - x, 2) + Math.pow(e.y - y, 2) <= MARK_RADIUS * MARK_RADIUS);
-    if (typeof point !== 'undefined') location.href = '/flood.html?p=' + point.name;
+        .find(e => Math.pow(e['x'] - x, 2) + Math.pow(e['y'] - y, 2) <= MARK_RADIUS * MARK_RADIUS);
+    if (typeof point !== 'undefined') location.href = '/flood.html?p=' + point['name'];
 };
 
 const initMapPosition = () => {

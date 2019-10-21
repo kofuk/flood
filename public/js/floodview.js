@@ -63,7 +63,7 @@ const playFlood = (data) => {
     try {
         const d = JSON.parse(data);
 
-        points = d.points;
+        points = d['points'];
 
         requestAnimationFrame(() => {
             startTime = Date.now();
