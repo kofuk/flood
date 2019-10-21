@@ -79,7 +79,7 @@ const adjustCanvas = () => {
 
     if (height > 175 * 20) {
         endCond.chunkY  = 0;
-        endCond.offsetX = 0;
+        endCond.offsetY = 0;
     } else {
         endCond.chunkY = 19 - Math.floor(height / 175);
         endCond.offsetY = 175 - height % 175;
