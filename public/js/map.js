@@ -160,12 +160,28 @@ const mouseMove = (e) => {
     prevY = currentY;
 }
 
+const initMapPosition = () => {
+    const midX = CHUNK_WIDTH * CHUNK_COUNT_X / 2;
+    const midY = CHUNK_HEIGHT * CHUNK_COUNT_Y / 2;
+
+    const countLeft = Math.floor(height / CHUNK_HEIGHT / 2);
+    const countUp = Math.floor(width / CHUNK_WIDTH / 2);
+
+    chunkX = Math.floor(midX / CHUNK_WIDTH) - countLeft;
+    chunkY = Math.floor(midY / CHUNK_HEIGHT) - countUp;
+
+    offsetX = (midX - (chunkX + countLeft) * CHUNK_WIDTH) / 2;
+    offsetY = (midY - (chunkY + countUp) * CHUNK_HEIGHT) / 2;
+};
+
 const mouseUp = () => {
     mouseDownP = false;
 };
 
 addEventListener('load', () => {
     adjustCanvas();
+
+    initMapPosition();
 
     const canvas = document.getElementById('map');
     canvas.addEventListener('mousedown', mouseDown);
