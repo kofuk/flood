@@ -171,6 +171,7 @@ addEventListener('load', () => {
     canvas.addEventListener('mousedown', mouseDown);
     canvas.addEventListener('mousemove', mouseMove);
     canvas.addEventListener('mouseup', mouseUp);
+    canvas.addEventListener('mouseleave', mouseUp);
 
     requestAnimationFrame(redisplay);
 });
