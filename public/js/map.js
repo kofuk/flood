@@ -222,7 +222,7 @@ const loadPoints = () => {
     xhr.open('GET', '/restricted/points.json');
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState === 4) {
-            points = JSON.parse(xhr.response);
+            points = JSON.parse(xhr.responseText);
 
             postRedisplay();
         }
