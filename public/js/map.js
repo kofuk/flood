@@ -1,5 +1,10 @@
 'use strict';
 
+const CHUNK_COUNT_X = 20;
+const CHUNK_COUNT_Y = 20;
+const CHUNK_WIDTH = 248;
+const CHUNK_HEIGHT = 175;
+
 let maps = new Map();
 let width, height;
 let chunkX = 0;
@@ -25,21 +30,21 @@ const redisplay = () => {
     let bottommost = -offsetY;
     let rightmost = -offsetX;
 
-    for (let i = chunkX; i < 20; i++) {
+    for (let i = chunkX; i < CHUNK_COUNT_X; i++) {
         if (rightmost >= width) break;
 
-        for (let j = chunkY; j < 20; j++) {
+        for (let j = chunkY; j < CHUNK_COUNT_Y; j++) {
             if (bottommost >= height) break;
 
             const chunkName = '' + i + '-' + j;
 
             if (!maps.has(chunkName)) loadMap(chunkName);
-            else ctxt.drawImage(maps.get(chunkName), rightmost, bottommost, 248, 175);
+            else ctxt.drawImage(maps.get(chunkName), rightmost, bottommost, CHUNK_WIDTH, CHUNK_HEIGHT);
 
-            bottommost += 175;
+            bottommost += CHUNK_HEIGHT;
         }
         bottommost = -offsetY;
-        rightmost += 248;
+        rightmost += CHUNK_WIDTH;
     }
 
     requestAnimationFrame(redisplay);
@@ -69,20 +74,20 @@ const adjustCanvas = () => {
     canvas.width = width;
     canvas.height = height;
 
-    if (width > 248 * 20) {
+    if (width > CHUNK_WIDTH * CHUNK_COUNT_X) {
         endCond.chunkX = 0;
         endCond.offsetX = 0;
     } else {
-        endCond.chunkX = 19 - Math.floor(width / 248);
-        endCond.offsetX = 248 - width % 248;
+        endCond.chunkX = CHUNK_COUNT_X - 1 - Math.floor(width / CHUNK_WIDTH);
+        endCond.offsetX = CHUNK_WIDTH - width % CHUNK_WIDTH;
     }
 
-    if (height > 175 * 20) {
+    if (height > CHUNK_HEIGHT * CHUNK_COUNT_Y) {
         endCond.chunkY  = 0;
         endCond.offsetY = 0;
     } else {
-        endCond.chunkY = 19 - Math.floor(height / 175);
-        endCond.offsetY = 175 - height % 175;
+        endCond.chunkY = CHUNK_COUNT_Y - 1 - Math.floor(height / CHUNK_HEIGHT);
+        endCond.offsetY = CHUNK_HEIGHT - height % CHUNK_HEIGHT;
     }
 
     canvasRect = canvas.getBoundingClientRect();
@@ -110,11 +115,11 @@ const mouseMove = (e) => {
     offsetY += moveY;
 
     for (;;) {
-        if (chunkX < endCond.chunkX && offsetX >= 248) {
-            offsetX -= 248;
+        if (chunkX < endCond.chunkX && offsetX >= CHUNK_WIDTH) {
+            offsetX -= CHUNK_WIDTH;
             ++chunkX;
         } else if (chunkX > 0 && offsetX < 0) {
-            offsetX += 248;
+            offsetX += CHUNK_WIDTH;
             --chunkX;
         } else {
             if (chunkX <= 0 && offsetX < 0) {
@@ -130,11 +135,11 @@ const mouseMove = (e) => {
     }
 
     for (;;) {
-        if (chunkY < endCond.chunkY && offsetY >= 175) {
-            offsetY -= 175;
+        if (chunkY < endCond.chunkY && offsetY >= CHUNK_HEIGHT) {
+            offsetY -= CHUNK_HEIGHT;
             ++chunkY;
         } else if (chunkY > 0 && offsetY < 0) {
-            offsetY += 175;
+            offsetY += CHUNK_HEIGHT;
             --chunkY;
         } else {
             if (chunkY <= 0 && offsetY < 0) {
