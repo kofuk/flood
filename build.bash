@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-if [ "$1" = "--clean" ]; then
+if [ "$#" -gt 1 ] && [ "$1" = "--clean" ]; then
     rm -rf flood/ flood.tar.gz
     exit
 fi
@@ -11,7 +11,7 @@ if [ -e flood ]; then
     exit 1
 fi
 
-if [ -z "$CLOSURE_COMPILER" ]; then
+if [ -z "${CLOSURE_COMPILER:-}" ]; then
     echo "$0: CLOSURE_COMPILER is not set"
     exit 1
 fi
