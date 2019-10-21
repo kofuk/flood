@@ -5,12 +5,16 @@ const CHUNK_COUNT_Y = 20;
 const CHUNK_WIDTH = 248;
 const CHUNK_HEIGHT = 175;
 
+const MARK_RADIUS = 40;
+
 let maps = new Map();
 let width, height;
 let chunkX = 0;
 let chunkY = 0;
 let offsetX = 0;
 let offsetY = 0;
+
+let points;
 
 let needRedisplay = true;
 
@@ -39,12 +43,47 @@ const redisplay = () => {
             const chunkName = '' + i + '-' + j;
 
             if (!maps.has(chunkName)) loadMap(chunkName);
-            else ctxt.drawImage(maps.get(chunkName), rightmost, bottommost, CHUNK_WIDTH, CHUNK_HEIGHT);
+            else {
+                if (maps.get(chunkName).complete && maps.get(chunkName).width !== 0) {
+                    ctxt.drawImage(maps.get(chunkName), rightmost, bottommost, CHUNK_WIDTH, CHUNK_HEIGHT);
+                }
+            }
 
             bottommost += CHUNK_HEIGHT;
         }
         bottommost = -offsetY;
         rightmost += CHUNK_WIDTH;
+    }
+
+    const rangeLeft = chunkX * CHUNK_WIDTH + offsetX;
+    const rangeRight = rangeLeft + width;
+    const rangeTop = chunkY * CHUNK_HEIGHT + offsetY;
+    const rangeButtom = rangeTop + height;
+
+    if (typeof points !== 'undefined') {
+        for (let i = 0; i < points.length; i++) {
+            const point = points[i];
+            if (rangeLeft - MARK_RADIUS <= point.x && point.x <= rangeRight + MARK_RADIUS
+                && rangeTop - MARK_RADIUS <= point.y && point.y <= rangeButtom + MARK_RADIUS) {
+
+                ctxt.fillStyle = 'rgba(0, 0, 0, .03)';
+                for (let i = 1; i <= 5; i++) {
+                    ctxt.beginPath();
+                    ctxt.arc(point.x - rangeLeft + i * .8, point.y - rangeTop + i, MARK_RADIUS, 0, 2 * Math.PI, false);
+                    ctxt.fill();
+                }
+
+                ctxt.fillStyle = 'rgb(0, 98, 255)';
+                ctxt.beginPath();
+                ctxt.arc(point.x - rangeLeft, point.y - rangeTop, MARK_RADIUS, 0, 2 * Math.PI, false);
+                ctxt.fill();
+
+                ctxt.fillStyle = 'rgb(33, 118, 255)';
+                ctxt.beginPath();
+                ctxt.arc(point.x - rangeLeft, point.y - rangeTop, MARK_RADIUS * .97, 0, 2 * Math.PI, false);
+                ctxt.fill();
+            }
+        }
     }
 
     requestAnimationFrame(redisplay);
@@ -178,10 +217,25 @@ const mouseUp = () => {
     mouseDownP = false;
 };
 
+const loadPoints = () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/restricted/points.json');
+    xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState === 4) {
+            points = JSON.parse(xhr.response);
+
+            postRedisplay();
+        }
+    });
+    xhr.send();
+};
+
 window.addEventListener('load', () => {
     adjustCanvas();
 
     initMapPosition();
+
+    requestAnimationFrame(redisplay);
 
     const canvas = document.getElementById('map');
     canvas.addEventListener('mousedown', mouseDown);
@@ -189,7 +243,7 @@ window.addEventListener('load', () => {
     canvas.addEventListener('mouseup', mouseUp);
     canvas.addEventListener('mouseleave', mouseUp);
 
-    requestAnimationFrame(redisplay);
+    loadPoints();
 });
 
 window.addEventListener('resize', () => {
