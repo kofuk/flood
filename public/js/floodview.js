@@ -99,7 +99,7 @@ const measure = () => {
     }
 };
 
-addEventListener('resize', () => {
+window.addEventListener('resize', () => {
     measure();
 
     const canvas = document.getElementById('flood');
@@ -110,7 +110,7 @@ addEventListener('resize', () => {
     drawBgImage();
 });
 
-addEventListener('load', () => {
+window.addEventListener('load', () => {
     const canvas  = document.getElementById('flood');
 
     measure();

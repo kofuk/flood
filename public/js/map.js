@@ -178,7 +178,7 @@ const mouseUp = () => {
     mouseDownP = false;
 };
 
-addEventListener('load', () => {
+window.addEventListener('load', () => {
     adjustCanvas();
 
     initMapPosition();
@@ -192,7 +192,7 @@ addEventListener('load', () => {
     requestAnimationFrame(redisplay);
 });
 
-addEventListener('resize', () => {
+window.addEventListener('resize', () => {
     adjustCanvas();
     postRedisplay();
 });
