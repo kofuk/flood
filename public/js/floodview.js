@@ -1,6 +1,7 @@
 'use strict';
 
 let width, height, imageWidth, imageHeight;
+
 const bgImage = new Image();
 
 const drawBgImage = () => {
@@ -59,32 +60,6 @@ const proceedWithAnimation = () => {
     requestAnimationFrame(proceedWithAnimation);
 };
 
-const playFlood = (data) => {
-    try {
-        const d = JSON.parse(data);
-
-        points = d['points'];
-
-        requestAnimationFrame(() => {
-            startTime = Date.now();
-            proceedWithAnimation();
-        });
-    } catch (e) {
-        //TODO: error handling
-    }
-};
-
-const loadAndPlayFlood = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/restricted/data/cityhall.json?' + new Date());
-    xhr.addEventListener('readystatechange', () => {
-        if (xhr.readyState === 4) {
-            playFlood(xhr.response);
-        }
-    });
-    xhr.send();
-};
-
 const measure = () => {
     const canvas = document.getElementById('flood');
     width = canvas.clientWidth;
@@ -99,6 +74,24 @@ const measure = () => {
     }
 };
 
+const parseQuery = () => {
+    const uri = window.location.href;
+    const start = uri.indexOf("?") + 1;
+    const end = uri.indexOf("#") >= 0 ? uri.indexOf("#") : uri.length;
+
+    if (start <= 0) return new Map();
+
+    const queryString = uri.substring(start, end);
+
+    const result = new Map();
+    queryString.split("&").forEach(e => {
+        const positionEq = e.indexOf("=");
+        result.set(e.substring(0, positionEq), e.substring(positionEq + 1, uri.length));
+    });
+
+    return result;
+};
+
 window.addEventListener('resize', () => {
     measure();
 
@@ -110,6 +103,34 @@ window.addEventListener('resize', () => {
     drawBgImage();
 });
 
+const init = (resp) => {
+    const data = JSON.parse(resp);
+
+    points = data['points'];
+
+    bgImage.src = data['img'];
+    bgImage.addEventListener('load', () => {
+        drawBgImage();
+        requestAnimationFrame(() => {
+            startTime = Date.now();
+            proceedWithAnimation();
+        });
+    });
+
+    document.getElementById('name').innerText = data['name'];
+};
+
+const loadData = (name) => {
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState === 4) {
+            init(xhr.responseText);
+        }
+    });
+    xhr.open('GET', '/restricted/data/' + name + '.json');
+    xhr.send();
+};
+
 window.addEventListener('load', () => {
     const canvas  = document.getElementById('flood');
 
@@ -118,9 +139,13 @@ window.addEventListener('load', () => {
     canvas.width = width;
     canvas.height = height;
 
-    bgImage.src = '/images/restricted/cityhall.jpg';
-    bgImage.addEventListener('load', () => {
-        drawBgImage();
-        loadAndPlayFlood();
-    });
+    const query = parseQuery();
+    const place = query.get('p');
+
+    if (typeof place === 'undefined') {
+        console.log('error');
+        return;
+    }
+
+    loadData(place);
 });
