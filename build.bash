@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-if [ "$#" -gt 1 ] && [ "$1" = "--clean" ]; then
+if [ "$#" -ge 1 ] && [ "$1" = "--clean" ]; then
     rm -rf flood/ flood.tar.gz
     exit
 fi
