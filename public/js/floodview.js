@@ -2,6 +2,9 @@
 
 let width, height, imageWidth, imageHeight;
 
+let depthPlace;
+let depths;
+
 const bgImage = new Image();
 
 const drawBgImage = () => {
@@ -42,6 +45,7 @@ const drawWater = (points1, points2, offset) => {
 
 let startTime;
 let points;
+let speeds;
 
 const proceedWithAnimation = () => {
     const passed = Date.now() - startTime;
@@ -56,6 +60,8 @@ const proceedWithAnimation = () => {
 
         drawWater(points[index - 1], points[index], offset);
     }
+
+    document.getElementById('speed').innerText = speeds[index];
 
     requestAnimationFrame(proceedWithAnimation);
 };
@@ -107,6 +113,9 @@ const init = (resp) => {
     const data = JSON.parse(resp);
 
     points = data['points'];
+    depthPlace = data['depth_place'];
+    speeds = data['speed'];
+    depths = data['depth'];
 
     bgImage.src = data['img'];
     bgImage.addEventListener('load', () => {
@@ -124,7 +133,11 @@ const loadData = (name) => {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState === 4) {
-            init(xhr.responseText);
+            if (200 <= xhr.status && xhr.status < 300) {
+                init(xhr.responseText);
+            } else {
+                document.getElementById('name').innerText = 'エラーが発生しました';
+            }
         }
     });
     xhr.open('GET', '/restricted/data/' + name + '.json');
@@ -143,7 +156,8 @@ window.addEventListener('load', () => {
     const place = query.get('p');
 
     if (typeof place === 'undefined') {
-        console.log('error');
+        document.getElementById('name').innerText = 'エラーが発生しました';
+
         return;
     }
 
