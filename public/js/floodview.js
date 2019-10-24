@@ -92,7 +92,7 @@ const parseQuery = () => {
     const result = new Map();
     queryString.split("&").forEach(e => {
         const positionEq = e.indexOf("=");
-        result.set(e.substring(0, positionEq), e.substring(positionEq + 1, uri.length));
+        result.set(e.substring(0, positionEq), e.substring(positionEq + 1));
     });
 
     return result;
