@@ -1,6 +1,6 @@
 'use strict';
 
-let width, height, imageWidth, imageHeight;
+let width, height, imageAspect, imageWidth, imageHeight;
 
 let depthPlace;
 let depths;
@@ -82,9 +82,11 @@ const measure = () => {
     width = canvas.clientWidth;
     height = canvas.clientHeight;
 
-    if (width * 3 / 4 > height) {
+    const screenAspect = width / height;
+
+    if (screenAspect > imageAspect) {
         imageHeight = height;
-        imageWidth = height * 4 / 3;
+        imageWidth = height * imageAspect;
 
         infoPanel.classList.remove('bottom');
         infoPanel.classList.add('right');
@@ -101,7 +103,7 @@ const measure = () => {
         thumb.classList.remove('bottom');
         thumb.classList.add('right');
     } else {
-        imageHeight = width * 3 / 4;
+        imageHeight = width / imageAspect;
         imageWidth = width;
 
         infoPanel.classList.remove('right');
@@ -175,16 +177,25 @@ const init = (resp) => {
 
     bgImage.src = data['img'];
     bgImage.addEventListener('load', () => {
+        imageAspect = bgImage.naturalWidth / bgImage.naturalHeight;
+        const canvas  = document.getElementById('flood');
+
+        measure();
+
+        canvas.width = width;
+        canvas.height = height;
+
         drawBgImage();
-        requestAnimationFrame(() => {
-            startTime = Date.now();
-            proceedWithAnimation();
-        });
+
+        setTimeout(() => {
+            requestAnimationFrame(() => {
+                startTime = Date.now();
+                proceedWithAnimation();
+            });
+        }, 500);
     });
 
     document.getElementById('name').innerText = data['name'];
-
-    console.log('aa');
 
     data['info'].forEach((e) => {
 
@@ -221,13 +232,6 @@ const loadData = (name) => {
 };
 
 window.addEventListener('load', () => {
-    const canvas  = document.getElementById('flood');
-
-    measure();
-
-    canvas.width = width;
-    canvas.height = height;
-
     const query = parseQuery();
     const place = query.get('p');
 
