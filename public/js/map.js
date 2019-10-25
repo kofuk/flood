@@ -248,8 +248,8 @@ const click = (e) => {
 };
 
 const initMapPosition = () => {
-    const midX = CHUNK_WIDTH * CHUNK_COUNT_X / 2;
-    const midY = CHUNK_HEIGHT * CHUNK_COUNT_Y / 2;
+    const midX = CHUNK_WIDTH * CHUNK_COUNT_X / 6;
+    const midY = CHUNK_HEIGHT * CHUNK_COUNT_Y / 1.5;
 
     const countLeft = Math.floor(height / CHUNK_HEIGHT / 2);
     const countUp = Math.floor(width / CHUNK_WIDTH / 2);
