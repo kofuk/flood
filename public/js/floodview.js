@@ -23,20 +23,12 @@ const drawWater = (points1, points2, offset) => {
 
     ctxt.beginPath();
 
-    if (offset === 0) {
-        ctxt.moveTo(imageWidth * points1[0][0], imageHeight * points1[0][1]);
+    ctxt.moveTo(imageWidth * (points1[0][0] + (points2[0][0] - points1[0][0]) * offset),
+                imageHeight * (points1[0][1] + (points2[0][1] - points1[0][1]) * offset));
 
-        for (let i = 1; i < points1.length; i++) {
-            ctxt.lineTo(imageWidth * points1[i][0], imageHeight * points1[i][1]);
-        }
-    } else {
-        ctxt.moveTo(imageWidth * (points1[0][0] + (points2[0][0] - points1[0][0]) * offset),
-                    imageHeight * (points1[0][1] + (points2[0][1] - points1[0][1]) * offset));
-
-        for (let i = 1; i < points1.length; i++) {
-            ctxt.lineTo(imageWidth * (points1[i][0] + (points2[i][0] - points1[i][0]) * offset),
-                        imageHeight * (points1[i][1] + (points2[i][1] - points1[i][1]) * offset));
-        }
+    for (let i = 1; i < points1.length; i++) {
+        ctxt.lineTo(imageWidth * (points1[i][0] + (points2[i][0] - points1[i][0]) * offset),
+                    imageHeight * (points1[i][1] + (points2[i][1] - points1[i][1]) * offset));
     }
 
     ctxt.closePath();
@@ -49,17 +41,18 @@ let speeds;
 
 const proceedWithAnimation = () => {
     const passed = Date.now() - startTime;
-    const index = Math.ceil(passed / 1000);
+    let index = Math.ceil(passed / 1000);
+    let offset;
 
-    if (index >= points.length) return;
-
-    if (index === 0) {
-        drawWater(points[0], null, 0);
+    if (index < points.length) {
+        offset = passed / 1000 - index + 1;
     } else {
-        const offset = passed / 1000 - index + 1;
-
-        drawWater(points[index - 1], points[index], offset);
+        index = points.length - 1;
+        offset = 1;
     }
+
+    if (index === 0) drawWater(points[0], points[0], 0);
+    else drawWater(points[index - 1], points[index], offset);
 
     document.getElementById('speed').innerText = speeds[index];
 
