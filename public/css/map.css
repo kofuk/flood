@@ -16,9 +16,10 @@ body {
     z-index: 2;
     background-color: white;
     width: 80%;
+    max-width: 500px;
     bottom: 0;
     margin: 0 10% 20px 10%;
-    padding: 20px 20px 50px 20px;
+    padding: 20px 20px 35px 20px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, .5) 3px 5px 10px;
     opacity: 1;
@@ -32,13 +33,13 @@ body {
 }
 
 #description-place-name {
-    font-size: 35px;
+    font-size: 25px;
 }
 
 #description-address {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 20px;
-    font-size: 25px;
+    font-size: 18px;
     opacity: .8;
 }
 
@@ -47,6 +48,6 @@ body {
     top: 0;
     right: 0;
     margin: 15px;
-    height: 150px;
+    height: 100px;
     border-radius: 10px;
 }

@@ -5,7 +5,7 @@ const CHUNK_COUNT_Y = 20;
 const CHUNK_WIDTH = 248;
 const CHUNK_HEIGHT = 175;
 
-const MARK_RADIUS = 40;
+const MARK_RADIUS = 30;
 
 let maps = new Map();
 let width, height;
