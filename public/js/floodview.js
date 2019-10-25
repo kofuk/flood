@@ -68,16 +68,63 @@ const proceedWithAnimation = () => {
 
 const measure = () => {
     const canvas = document.getElementById('flood');
+    const infoPanel = document.getElementById('info');
+    const thumb = document.getElementById('thumb');
     width = canvas.clientWidth;
     height = canvas.clientHeight;
 
     if (width * 3 / 4 > height) {
         imageHeight = height;
         imageWidth = height * 4 / 3;
+
+        infoPanel.classList.remove('bottom');
+        infoPanel.classList.add('right');
+        infoPanel.style.height = '100%';
+        infoPanel.style.width = '' + (width - imageWidth) + 'px';
+        const translateWidth = width - imageWidth < 200 ? 200 - (width - imageWidth) : 0;
+        infoPanel.style.transform = 'translateX(' + translateWidth + 'px)';
+
+        thumb.style.right = '' + (infoPanel.clientWidth) + 'px';
+        thumb.style.bottom = '0';
+        if (width - imageWidth < 50) thumb.classList.add('enabled');
+        else thumb.classList.remove('enabled');
+        thumb.style.transform = 'translateX(' + translateWidth + 'px)';
+        thumb.classList.remove('bottom');
+        thumb.classList.add('right');
     } else {
         imageHeight = width * 3 / 4;
         imageWidth = width;
+
+        infoPanel.classList.remove('right');
+        infoPanel.classList.add('bottom');
+        infoPanel.style.width = '100%';
+        infoPanel.style.height = '' + (height - imageHeight) + 'px';
+        const translateHeight = height - imageHeight < 200 ? 200 - (height - imageHeight) : 0;
+        infoPanel.style.transform = 'translateY(' + translateHeight + 'px)';
+
+        thumb.style.bottom = '' + (infoPanel.clientHeight) + 'px';
+        thumb.style.right = '0';
+        if (height - imageHeight < 100) thumb.classList.add('enabled');
+        else thumb.classList.remove('enabled');
+        thumb.style.transform = 'translateY(' + translateHeight + 'px)';
+        thumb.classList.remove('right');
+        thumb.classList.add('bottom');
     }
+
+};
+
+const expandInfo = () => {
+    document.getElementById('info').classList.add('expanded');
+};
+
+const collapseInfo = () => {
+    document.getElementById('info').classList.remove('expanded');
+};
+
+const toggleExpandInfo = () => {
+    const infoPanel = document.getElementById('info');
+    if (infoPanel.classList.contains('expanded')) collapseInfo();
+    else expandInfo();
 };
 
 const parseQuery = () => {
@@ -162,4 +209,8 @@ window.addEventListener('load', () => {
     }
 
     loadData(place);
+
+    document.getElementById('info').addEventListener('mouseenter', expandInfo);
+    document.getElementById('info').addEventListener('mouseleave', collapseInfo);
+    document.getElementById('thumb').addEventListener('click', toggleExpandInfo);
 });

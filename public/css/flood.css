@@ -24,21 +24,84 @@ html,body {
 #info {
     background-color: white;
     position: fixed;
-    right: 0;
-    width: 30%;
-    height: 100%;
     box-shadow: rgba(0, 0, 0, .2) -5px 0 5px;
     padding: 20px;
-    border-top: solid 10px rgb(0, 98, 255);
+    border-top: solid 5px rgb(0, 98, 255);
+    z-index: 1;
+    transition: transform 200ms ease;
+}
+
+#info.right {
+    min-width: 300px;
+    height: 100%;
+    right: 0;
+}
+
+#info.bottom {
+    width: 100%;
+    min-height: 200px;
+    bottom: 0;
+}
+
+#info.right.expanded {
+    transform: translateX(0) !important;
+}
+
+#info.bottom.expanded {
+    transform: translateY(0px) !important;
+}
+
+#thumb:not(.enabled) {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+#thumb.enabled {
+    display: block;
+    position: fixed;
+    background-color: #eee;
+    z-index: 0;
+    box-shadow: rgba(0, 0, 0, .3) -4px 3px 3px;
+    cursor: pointer;
+    transition-duration: 200ms;
+}
+
+#thumb.right {
+    width: 30px;
+    height: 50px;
+    bottom: 0;
+    margin: 5px 0;
+    transition-property: width, box-shadow;
+    border-radius: 5px 0 0 5px;
+}
+
+#thumb.bottom {
+    width: 50px;
+    height: 30px;
+    right: 0;
+    margin: 0 5px;
+    transition-property: height, box-shadow;
+    border-radius: 5px 5px 0 0;
+}
+
+#thumb.right:hover {
+    width: 40px;
+    box-shadow: rgba(0, 0, 0, .3) -5px 4px 4px;
+}
+
+#thumb.bottom:hover {
+    height: 40px;
+    box-shadow: rgba(0, 0, 0, .3) -5px 4px 4px;
 }
 
 #name {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 #speed {
     margin-left: 30px;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 #speed:after {
