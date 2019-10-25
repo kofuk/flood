@@ -30,6 +30,7 @@ html,body {
     border-top: solid 5px rgb(0, 98, 255);
     z-index: 3;
     transition: transform 200ms ease;
+    overflow-y: scroll;
 }
 
 #info.right {
