@@ -90,7 +90,7 @@ const measure = () => {
         infoPanel.classList.add('right');
         infoPanel.style.height = '100%';
         infoPanel.style.width = '' + (width - imageWidth) + 'px';
-        const translateWidth = width - imageWidth < 200 ? 200 - (width - imageWidth) : 0;
+        const translateWidth = width - imageWidth < 300 ? 300 - (width - imageWidth) : 0;
         infoPanel.style.transform = 'translateX(' + translateWidth + 'px)';
 
         thumb.style.right = '' + (infoPanel.clientWidth) + 'px';
