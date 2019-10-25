@@ -3,6 +3,7 @@ html,body {
     padding: 0;
     width: 100vw;
     height: 100vh;
+    font-family: sans-serif;
 }
 
 #wrapper {
@@ -27,7 +28,7 @@ html,body {
     box-shadow: rgba(0, 0, 0, .2) -5px 0 5px;
     padding: 20px;
     border-top: solid 5px rgb(0, 98, 255);
-    z-index: 1;
+    z-index: 3;
     transition: transform 200ms ease;
 }
 
@@ -61,7 +62,7 @@ html,body {
     display: block;
     position: fixed;
     background-color: #eee;
-    z-index: 0;
+    z-index: 2;
     box-shadow: rgba(0, 0, 0, .3) -4px 3px 3px;
     cursor: pointer;
     transition-duration: 200ms;
@@ -104,6 +105,30 @@ html,body {
     font-size: 20px;
 }
 
+#speed:empty {
+    display: none;
+}
+
 #speed:after {
     content: ' m/s';
+}
+
+#depth {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px 15px;
+    box-shadow: rgba(0, 0, 0, .3) -3px 3px 5px;
+    color: rgb(0, 98, 255);
+}
+
+#depth:empty {
+    display: none;
+}
+
+#depth:after {
+    content: ' m';
 }

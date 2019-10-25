@@ -14,7 +14,16 @@ const drawBgImage = () => {
     ctxt.drawImage(bgImage, 0, 0, imageWidth, imageHeight);
 };
 
-const drawWater = (points1, points2, offset) => {
+const updateDepthCard = (depth, x, y) => {
+    const card = document.getElementById('depth');
+    x -= card.clientWidth / 2;
+    y -= card.clientHeight / 2;
+
+    card.style.transform = 'translateX(' + x + 'px) translateY(' + y + 'px)';
+    card.innerText = depth;
+};
+
+const drawWater = (depth, points1, points2, offset) => {
     drawBgImage();
 
     const ctxt = document.getElementById('flood').getContext('2d');
@@ -33,6 +42,13 @@ const drawWater = (points1, points2, offset) => {
 
     ctxt.closePath();
     ctxt.fill();
+
+    const cardX = imageWidth * ((points1[depthPlace][0] + (points2[depthPlace][0] - points1[depthPlace][0]) * offset)
+                + (points1[depthPlace + 1][0] + (points2[depthPlace + 1][0] - points1[depthPlace + 1][0]) * offset)) / 2;
+    const cardY = imageHeight * ((points1[depthPlace][1] + (points2[depthPlace][1] - points1[depthPlace][1]) * offset)
+                + (points1[depthPlace + 1][1] + (points2[depthPlace + 1][1] - points1[depthPlace + 1][1]) * offset)) / 2;
+
+    updateDepthCard(depth, cardX, cardY);
 };
 
 let startTime;
@@ -51,8 +67,8 @@ const proceedWithAnimation = () => {
         offset = 1;
     }
 
-    if (index === 0) drawWater(points[0], points[0], 0);
-    else drawWater(points[index - 1], points[index], offset);
+    if (index === 0) drawWater(depths[0], points[0], points[0], 0);
+    else drawWater(depths[index], points[index - 1], points[index], offset);
 
     document.getElementById('speed').innerText = speeds[index];
 
