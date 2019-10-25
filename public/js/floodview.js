@@ -211,7 +211,7 @@ window.addEventListener('load', () => {
     const query = parseQuery();
     const place = query.get('p');
 
-    if (typeof place === 'undefined') {
+    if (typeof place === 'undefined' || place.match(/^[A-Za-z-]+$/) === null) {
         document.getElementById('name').innerText = 'エラーが発生しました';
 
         return;
