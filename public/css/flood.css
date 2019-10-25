@@ -132,3 +132,16 @@ html,body {
 #depth:after {
     content: ' m';
 }
+
+#additional-info {
+    margin-left: 20px;
+}
+
+.info-title {
+    margin-bottom: 5px;
+}
+
+.info-content {
+    margin-left: 10px;
+    color: #333;
+}

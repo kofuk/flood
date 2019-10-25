@@ -183,6 +183,26 @@ const init = (resp) => {
     });
 
     document.getElementById('name').innerText = data['name'];
+
+    console.log('aa');
+
+    data['info'].forEach((e) => {
+
+        const root = document.createElement('div');
+        root.classList.add('info-element');
+
+        const title = document.createElement('h2');
+        title.classList.add('info-title');
+        title.innerText = e['title'];
+        root.appendChild(title);
+
+        const content = document.createElement('div');
+        content.classList.add('info-content');
+        content.innerText = e['content'];
+        root.appendChild(content);
+
+        document.getElementById('additional-info').appendChild(root);
+    });
 };
 
 const loadData = (name) => {
