@@ -16,16 +16,21 @@ const drawBgImage = () => {
     ctxt.drawImage(bgImage, 0, 0, imageWidth, imageHeight);
 };
 
-const updateDepthCard = (depth, x, y) => {
-    const card = document.getElementById('depth');
+const updateDepthCard = (depth, hour, x, y) => {
+    const card = document.getElementById('card');
     x -= card.clientWidth / 2;
     y -= card.clientHeight / 2;
 
     card.style.transform = 'translateX(' + x + 'px) translateY(' + y + 'px)';
-    card.innerText = depth;
+
+    const depthCard = document.getElementById('depth');
+    depthCard.innerText = depth;
+
+    const hourCard = document.getElementById('hour');
+    hourCard.innerText = '（' + hour + '時間後）';
 };
 
-const drawWater = (depth, points1, points2, offset) => {
+const drawWater = (depth, hour, points1, points2, offset) => {
     drawBgImage();
 
     const ctxt = document.getElementById('flood').getContext('2d');
@@ -50,7 +55,7 @@ const drawWater = (depth, points1, points2, offset) => {
     const cardY = imageHeight * ((points1[depthPlace][1] + (points2[depthPlace][1] - points1[depthPlace][1]) * offset)
                 + (points1[depthPlace + 1][1] + (points2[depthPlace + 1][1] - points1[depthPlace + 1][1]) * offset)) / 2;
 
-    updateDepthCard(depth, cardX, cardY);
+    updateDepthCard(depth, hour, cardX, cardY);
 };
 
 let startTime;
@@ -69,8 +74,8 @@ const proceedWithAnimation = () => {
         offset = 1;
     }
 
-    if (index === 0) drawWater(depths[0], points[0], points[0], 0);
-    else drawWater(depths[index], points[index - 1], points[index], offset);
+    if (index === 0) drawWater(depths[0], index, points[0], points[0], 0);
+    else drawWater(depths[index], index, points[index - 1], points[index], offset);
 
     document.getElementById('speed').innerText = speeds[index];
 

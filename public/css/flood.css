@@ -119,7 +119,7 @@ html,body {
     content: ' m/s';
 }
 
-#depth {
+#card {
     position: absolute;
     top: 0;
     left: 0;
@@ -129,9 +129,10 @@ html,body {
     padding: 5px 15px;
     box-shadow: rgba(0, 0, 0, .3) -3px 3px 5px;
     color: rgb(0, 98, 255);
+    border: solid 3px rgb(0, 98, 255);
 }
 
-#depth:empty {
+#card:empty {
     display: none;
 }
 
