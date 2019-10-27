@@ -236,6 +236,18 @@ const mouseUp = () => {
     isMouseDown = false;
 };
 
+const touchStart = (e) => {
+    mouseDown(e.changedTouches[0]);
+};
+
+const touchMove = (e) => {
+    mouseMove(e.changedTouches[0]);
+};
+
+const touchEnd = () => {
+    mouseUp();
+};
+
 const click = (e) => {
     if (isMouseMoved) return;
 
@@ -286,6 +298,9 @@ window.addEventListener('load', () => {
     canvas.addEventListener('mousemove', mouseMove);
     canvas.addEventListener('mouseup', mouseUp);
     canvas.addEventListener('mouseleave', mouseUp);
+    canvas.addEventListener('touchstart', touchStart);
+    canvas.addEventListener('touchmove', touchMove);
+    canvas.addEventListener('touchend', touchEnd);
     canvas.addEventListener('click', click);
 
     const infoPanel = document.getElementById('info-panel');
