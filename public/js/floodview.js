@@ -262,12 +262,15 @@ window.addEventListener('load', () => {
 
     document.getElementById('replay').addEventListener('click', () => { startTime = Date.now(); });
 
-    document.querySelectorAll('input[name=speed]')
-            .forEach((e) => {
-                if (e.checked) setTimeScale(e.id);
+    // because IE doesn't support NodeList#forEach...
+    const speedSelector = document.querySelectorAll('input[name=speed]');
+    for (let i = 0; i < speedSelector.length; i++) {
+        const e = speedSelector[i];
+        if (e.checked) setTimeScale(e.id);
 
-                e.addEventListener('change', () => {
-                    setTimeScale(e.id);
-                });
-            });
+        e.addEventListener('change', () => {
+            setTimeScale(e.id);
+        });
+    }
 });
+
