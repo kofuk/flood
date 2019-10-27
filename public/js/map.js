@@ -288,6 +288,18 @@ window.addEventListener('load', () => {
     canvas.addEventListener('mouseleave', mouseUp);
     canvas.addEventListener('click', click);
 
+    const infoPanel = document.getElementById('info-panel');
+
+    document.getElementById('info-button')
+            .addEventListener('click', () => {
+                infoPanel.style.display = 'block';
+            });
+
+    document.getElementById('info-panel-close')
+            .addEventListener('click', () => {
+                infoPanel.style.display = 'none';
+            });
+
     loadPoints();
 });
 

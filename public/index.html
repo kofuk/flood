@@ -8,10 +8,34 @@
   <body>
     <canvas id="map"></canvas>
 
+    <img id="info-button" src="/images/info.png">
+
     <div class="description-card hidden" id="description-card">
       <div id="description-place-name"></div>
       <div id="description-address"></div>
       <img id="description-thumbnail">
+    </div>
+
+    <div id="info-panel">
+      <img id="info-panel-close" src="/images/close.png">
+
+      <div class="info-panel-title">洪水シミュレータ</div>
+
+      <p class="info-panel-description">
+        洪水シミュレータはフリーでオープンソースであり、
+        ソースコードは Apache License 2.0 の条件で使用可能です。<br>
+        <a href="https://github.com/kofuk/flood">GitHub でソースコードを見る</a>
+      </p>
+
+      <p class="info-panel-oss-license">
+        以下のオープソースソフトウェアを利用しています。
+        <ul>
+          <li>
+            <a href="https://github.com/google/material-design-icons">Material design icons</a>
+          </li>
+        </ul>
+      </p>
+
     </div>
 
     <script src="js/map.js"></script>
