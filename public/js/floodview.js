@@ -5,6 +5,8 @@ let width, height, imageAspect, imageWidth, imageHeight;
 let depthPlace;
 let depths;
 
+let timeScale;
+
 const bgImage = new Image();
 
 const drawBgImage = () => {
@@ -57,11 +59,11 @@ let speeds;
 
 const proceedWithAnimation = () => {
     const passed = Date.now() - startTime;
-    let index = Math.ceil(passed / 1000);
+    let index = Math.ceil(passed / timeScale);
     let offset;
 
     if (index < points.length) {
-        offset = passed / 1000 - index + 1;
+        offset = passed / timeScale - index + 1;
     } else {
         index = points.length - 1;
         offset = 1;
@@ -231,6 +233,12 @@ const loadData = (name) => {
     xhr.send();
 };
 
+const setTimeScale = (state) => {
+    if (state === 'speed-fast') timeScale = 300;
+    else if (state === 'speed-normal') timeScale = 1000;
+    else timeScale = 2000;
+};
+
 window.addEventListener('load', () => {
     const query = parseQuery();
     const place = query.get('p');
@@ -248,4 +256,13 @@ window.addEventListener('load', () => {
     document.getElementById('thumb').addEventListener('click', toggleExpandInfo);
 
     document.getElementById('replay').addEventListener('click', () => { startTime = Date.now(); });
+
+    document.querySelectorAll('input[name=speed]')
+            .forEach((e) => {
+                if (e.checked) setTimeScale(e.id);
+
+                e.addEventListener('change', () => {
+                    setTimeScale(e.id);
+                });
+            });
 });
