@@ -1,9 +1,9 @@
 'use strict';
 
-const CHUNK_COUNT_X = 20;
-const CHUNK_COUNT_Y = 20;
-const CHUNK_WIDTH = 248;
-const CHUNK_HEIGHT = 175;
+const CHUNK_COUNT_X = 10;
+const CHUNK_COUNT_Y = 10;
+const CHUNK_WIDTH = 490;
+const CHUNK_HEIGHT = 350;
 
 const MARK_RADIUS = 30;
 
