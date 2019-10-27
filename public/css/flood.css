@@ -150,3 +150,29 @@ html,body {
     margin-left: 10px;
     color: #333;
 }
+
+.action-button {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 15px;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 200ms;
+}
+
+.action-button:hover {
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.action-button:active {
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.action-button:before {
+    margin-right: 5px;
+}
+
+#replay:before {
+    content: url('/images/replay.png');
+}

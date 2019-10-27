@@ -246,4 +246,6 @@ window.addEventListener('load', () => {
     document.getElementById('info').addEventListener('mouseenter', expandInfo);
     document.getElementById('info').addEventListener('mouseleave', collapseInfo);
     document.getElementById('thumb').addEventListener('click', toggleExpandInfo);
+
+    document.getElementById('replay').addEventListener('click', () => { startTime = Date.now(); });
 });
