@@ -66,6 +66,8 @@ html,body {
     z-index: 2;
     box-shadow: rgba(0, 0, 0, .3) -4px 3px 3px;
     cursor: pointer;
+    background-position: center;
+    background-repeat: no-repeat;
     transition-duration: 200ms;
 }
 
@@ -76,6 +78,7 @@ html,body {
     margin: 5px 0;
     transition-property: width, box-shadow;
     border-radius: 5px 0 0 5px;
+    background-image: url('/images/arrow_left.png');
 }
 
 #thumb.bottom {
@@ -85,6 +88,7 @@ html,body {
     margin: 0 5px;
     transition-property: height, box-shadow;
     border-radius: 5px 5px 0 0;
+    background-image: url('/images/arrow_up.png');
 }
 
 #thumb.right:hover {
