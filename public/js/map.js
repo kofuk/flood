@@ -95,7 +95,7 @@ const postRedisplay = () => {
 
 const loadMap = (chunkName) => {
     const  img = new Image();
-    img.src = '/images/restricted/map/' + chunkName + '.png';
+    img.src = '/restricted/images/map/' + chunkName + '.png';
     img.addEventListener('load', postRedisplay);
     maps.set(chunkName, img);
 };
