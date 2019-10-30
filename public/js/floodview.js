@@ -183,6 +183,8 @@ const init = (resp) => {
     speeds = data['speed'];
     depths = data['depth'];
 
+    document.title = data['name'] + 'の浸水予想 - 洪水シミュレータ';
+
     bgImage.src = floodRoot + data['img'];
     bgImage.addEventListener('load', () => {
         imageAspect = bgImage.naturalWidth / bgImage.naturalHeight;
