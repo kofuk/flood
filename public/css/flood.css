@@ -130,6 +130,7 @@ html,body {
     box-shadow: rgba(0, 0, 0, .3) -3px 3px 5px;
     color: rgb(0, 98, 255);
     border: solid 3px rgb(0, 98, 255);
+    font-size: 35px;
 }
 
 #card:empty {
