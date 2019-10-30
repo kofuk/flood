@@ -7,6 +7,8 @@ const CHUNK_HEIGHT = 350;
 
 const MARK_RADIUS = 30;
 
+let floodRoot;
+
 let maps = new Map();
 let width, height;
 let chunkX = 0;
@@ -95,7 +97,7 @@ const postRedisplay = () => {
 
 const loadMap = (chunkName) => {
     const  img = new Image();
-    img.src = '/restricted/images/map/' + chunkName + '.png';
+    img.src = floodRoot + '/restricted/images/map/' + chunkName + '.png';
     img.addEventListener('load', postRedisplay);
     maps.set(chunkName, img);
 };
@@ -148,7 +150,7 @@ const changeCursor = (e) => {
     if (selecting) {
         if (prevDescriptionId !== point['name']) {
             document.getElementById('description-place-name').innerText = point['display_name'];
-            document.getElementById('description-thumbnail').src = point['img'];
+            document.getElementById('description-thumbnail').src = floodRoot + point['img'];
             document.getElementById('description-address').innerText = point['address'];
             document.getElementById('description-card').classList.remove('hidden');
             prevDescriptionId = point['name'];
@@ -256,7 +258,8 @@ const click = (e) => {
 
     const point = points
         .find(e => Math.pow(e['x'] - x, 2) + Math.pow(e['y'] - y, 2) <= MARK_RADIUS * MARK_RADIUS);
-    if (typeof point !== 'undefined') location.href = '/flood.html?p=' + point['name'];
+    if (typeof point !== 'undefined') location.href =
+        floodRoot + '/flood.html?p=' + point['name'];
 };
 
 const initMapPosition = () => {
@@ -275,7 +278,7 @@ const initMapPosition = () => {
 
 const loadPoints = () => {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/restricted/points.json');
+    xhr.open('GET', floodRoot +  '/restricted/points.json');
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState === 4) {
             points = JSON.parse(xhr.responseText);
@@ -286,7 +289,15 @@ const loadPoints = () => {
     xhr.send();
 };
 
+const detectRootPath = () => {
+    const location = window.location.href;
+
+    return location.replace(/\/(index.html)?(\?.+)?(\#.+)?$/, '');
+};
+
 window.addEventListener('load', () => {
+    floodRoot = detectRootPath();
+
     adjustCanvas();
 
     initMapPosition();

@@ -1,4 +1,5 @@
 'use strict';
+let floodRoot;
 
 let width, height, imageAspect, imageWidth, imageHeight;
 
@@ -182,7 +183,7 @@ const init = (resp) => {
     speeds = data['speed'];
     depths = data['depth'];
 
-    bgImage.src = data['img'];
+    bgImage.src = floodRoot + data['img'];
     bgImage.addEventListener('load', () => {
         imageAspect = bgImage.naturalWidth / bgImage.naturalHeight;
         const canvas  = document.getElementById('flood');
@@ -234,7 +235,7 @@ const loadData = (name) => {
             }
         }
     });
-    xhr.open('GET', '/restricted/data/' + name + '.json');
+    xhr.open('GET', floodRoot + '/restricted/data/' + name + '.json');
     xhr.send();
 };
 
@@ -244,7 +245,15 @@ const setTimeScale = (state) => {
     else timeScale = 2000;
 };
 
+const detectRootPath = () => {
+    const location = window.location.href;
+
+    return location.replace(/\/(flood.html)?(\?.+)?(\#.+)?$/, '');
+};
+
 window.addEventListener('load', () => {
+    floodRoot = detectRootPath();
+
     const query = parseQuery();
     const place = query.get('p');
 
