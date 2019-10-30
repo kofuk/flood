@@ -177,5 +177,5 @@ html,body {
 }
 
 #replay:before {
-    content: url('/images/replay.png');
+    content: url('images/replay.png');
 }
