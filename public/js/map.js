@@ -283,6 +283,16 @@ const loadPoints = () => {
         if (xhr.readyState === 4) {
             points = JSON.parse(xhr.responseText);
 
+            const canvas = document.getElementById('map');
+            canvas.addEventListener('mousedown', mouseDown);
+            canvas.addEventListener('mousemove', mouseMove);
+            canvas.addEventListener('mouseup', mouseUp);
+            canvas.addEventListener('mouseleave', mouseUp);
+            canvas.addEventListener('touchstart', touchStart);
+            canvas.addEventListener('touchmove', touchMove);
+            canvas.addEventListener('touchend', touchEnd);
+            canvas.addEventListener('click', click);
+
             postRedisplay();
         }
     });
@@ -303,16 +313,6 @@ window.addEventListener('load', () => {
     initMapPosition();
 
     requestAnimationFrame(redisplay);
-
-    const canvas = document.getElementById('map');
-    canvas.addEventListener('mousedown', mouseDown);
-    canvas.addEventListener('mousemove', mouseMove);
-    canvas.addEventListener('mouseup', mouseUp);
-    canvas.addEventListener('mouseleave', mouseUp);
-    canvas.addEventListener('touchstart', touchStart);
-    canvas.addEventListener('touchmove', touchMove);
-    canvas.addEventListener('touchend', touchEnd);
-    canvas.addEventListener('click', click);
 
     const infoPanel = document.getElementById('info-panel');
 
