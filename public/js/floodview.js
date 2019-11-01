@@ -251,9 +251,16 @@ const setTimeScale = (state) => {
         }
     }
 
-    if (state === 'speed-fast') timeScale = 300;
-    else if (state === 'speed-normal') timeScale = 1000;
-    else timeScale = 2000;
+    let newScale;
+    if (state === 'speed-fast') newScale = 300;
+    else if (state === 'speed-normal') newScale = 1000;
+    else newScale = 2000;
+
+    const now = Date.now();
+    const passed = now - startTime;
+    startTime = now - passed / timeScale * newScale;
+
+    timeScale = newScale;
 };
 
 const detectRootPath = () => {
