@@ -107,12 +107,17 @@ html,body {
 }
 
 #speed {
-    margin-left: 30px;
-    font-size: 20px;
+    margin: 15px 10px 15px 30px;
+    font-size: 23px;
+    color: rgb(0, 80, 240);
 }
 
 #speed:empty {
     display: none;
+}
+
+#speed:before {
+    content: '流速: ';
 }
 
 #speed:after {
