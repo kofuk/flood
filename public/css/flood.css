@@ -79,7 +79,7 @@ html,body {
     margin: 5px 0;
     transition-property: width, box-shadow;
     border-radius: 5px 0 0 5px;
-    background-image: url('/images/arrow_left.png');
+    background-image: url('../images/arrow_left.png');
 }
 
 #thumb.bottom {
@@ -89,7 +89,7 @@ html,body {
     margin: 0 5px;
     transition-property: height, box-shadow;
     border-radius: 5px 5px 0 0;
-    background-image: url('/images/arrow_up.png');
+    background-image: url('../images/arrow_up.png');
 }
 
 #thumb.right:hover {
@@ -158,18 +158,21 @@ html,body {
     display: inline-block;
     margin: 5px;
     padding: 5px 15px;
-    background-color: rgba(0, 0, 0, .1);
+    background: #ddd;
     border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, .3) 3px 3px 5px;
     cursor: pointer;
-    transition: background-color 200ms;
+    transition: background-color 200ms,
+                box-shadow 300ms;
 }
 
 .action-button:hover {
-    background-color: rgba(0, 0, 0, .2);
+    box-shadow: rgba(0, 0, 0, .3) 4px 4px 7px;
 }
 
 .action-button:active {
-    background-color: rgba(0, 0, 0, .3);
+    background-color: #ccc;
+    box-shadow: rgba(0, 0, 0, .3) 2px 2px 4px;
 }
 
 .action-button:before {
@@ -177,5 +180,18 @@ html,body {
 }
 
 #replay:before {
-    content: url('images/replay.png');
+    content: url('../images/replay.png');
+}
+
+input[type=radio] {
+    display: none;
+}
+
+label[data-enabled=true] {
+    background-color: rgb(105, 159, 255);
+    box-shadow: rgba(0, 0, 0, .3) -2px 2px 4px !important;
+}
+
+label[data-enabled=true]:hover {
+    background-color: rgb(86, 130, 209);
 }

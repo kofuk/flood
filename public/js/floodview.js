@@ -242,6 +242,15 @@ const loadData = (name) => {
 };
 
 const setTimeScale = (state) => {
+    const radios = document.querySelectorAll('label.action-button');
+    for (let i = radios.length - 1; i >= 0; i--) {
+        if (radios[i].getAttribute('for') == state) {
+            radios[i].setAttribute('data-enabled', 'true');
+        } else {
+            radios[i].removeAttribute('data-enabled');
+        }
+    }
+
     if (state === 'speed-fast') timeScale = 300;
     else if (state === 'speed-normal') timeScale = 1000;
     else timeScale = 2000;
