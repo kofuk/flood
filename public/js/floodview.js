@@ -128,7 +128,7 @@ const measure = () => {
         infoPanel.classList.add('bottom');
         infoPanel.style.width = '100%';
         infoPanel.style.height = '' + (height - imageHeight) + 'px';
-        const translateHeight = height - imageHeight < 200 ? 200 - (height - imageHeight) : 0;
+        const translateHeight = height - imageHeight < 240 ? 240 - (height - imageHeight) : 0;
         infoPanel.style.transform = 'translateY(' + translateHeight + 'px)';
 
         thumb.style.bottom = '' + (infoPanel.clientHeight) + 'px';
