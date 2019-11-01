@@ -4,7 +4,7 @@ html,body {
     width: 100vw;
     height: 100vh;
     font-family: sans-serif;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 #wrapper {
@@ -32,6 +32,7 @@ html,body {
     z-index: 3;
     transition: transform 200ms ease;
     overflow-y: scroll;
+    box-sizing: border-box;
 }
 
 #info.right {
@@ -127,7 +128,6 @@ html,body {
 #card {
     position: absolute;
     top: 0;
-    left: 0;
     z-index: 1;
     background-color: white;
     border-radius: 5px;

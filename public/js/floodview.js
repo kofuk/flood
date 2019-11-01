@@ -52,7 +52,7 @@ const drawWater = (depth, hour, points1, points2, offset) => {
     ctxt.fill();
 
     const cardX = imageWidth * ((points1[depthPlace][0] + (points2[depthPlace][0] - points1[depthPlace][0]) * offset)
-                + (points1[depthPlace + 1][0] + (points2[depthPlace + 1][0] - points1[depthPlace + 1][0]) * offset)) / 2;
+                + (points1[depthPlace + 1][0] + (points2[depthPlace + 1][0] - points1[depthPlace + 1][0]) * offset)) / 2 - 60;
     const cardY = imageHeight * ((points1[depthPlace][1] + (points2[depthPlace][1] - points1[depthPlace][1]) * offset)
                 + (points1[depthPlace + 1][1] + (points2[depthPlace + 1][1] - points1[depthPlace + 1][1]) * offset)) / 2;
 
@@ -330,4 +330,3 @@ window.addEventListener('load', () => {
         });
     }
 });
-
