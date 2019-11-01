@@ -200,3 +200,9 @@ label[data-enabled=true] {
 label[data-enabled=true]:hover {
     background-color: rgb(86, 130, 209);
 }
+
+#play-seek {
+    margin: 20px 0;
+    width: 100%;
+    outline: none;
+}

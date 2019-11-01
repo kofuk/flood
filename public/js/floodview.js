@@ -60,16 +60,26 @@ const drawWater = (depth, hour, points1, points2, offset) => {
 };
 
 let startTime;
+let currentPlayTime;
+let timeRecalculateNeeded = true;
 let points;
 let speeds;
 
-const proceedWithAnimation = () => {
-    const passed = Date.now() - startTime;
-    let index = Math.ceil(passed / timeScale);
+const updateSeekBar = () => {
+    document.getElementById('play-seek').valueAsNumber = Math.floor(currentPlayTime / (points.length * timeScale) * 100);
+};
+
+const requestNextFrame = () => {
+    if (timeRecalculateNeeded) {
+        currentPlayTime = Date.now() - startTime;
+        updateSeekBar();
+    }
+
+    let index = Math.ceil(currentPlayTime / timeScale);
     let offset;
 
     if (index < points.length) {
-        offset = passed / timeScale - index + 1;
+        offset = currentPlayTime / timeScale - index + 1;
     } else {
         index = points.length - 1;
         offset = 1;
@@ -80,7 +90,7 @@ const proceedWithAnimation = () => {
 
     document.getElementById('speed').innerText = speeds[index];
 
-    requestAnimationFrame(proceedWithAnimation);
+    requestAnimationFrame(requestNextFrame);
 };
 
 const measure = () => {
@@ -200,7 +210,7 @@ const init = (resp) => {
         setTimeout(() => {
             requestAnimationFrame(() => {
                 startTime = Date.now();
-                proceedWithAnimation();
+                requestNextFrame();
             });
         }, 500);
     });
@@ -269,6 +279,20 @@ const detectRootPath = () => {
     return location.replace(/\/(flood.html)?(\?.+)?(\#.+)?$/, '');
 };
 
+const startSeek = () => {
+    timeRecalculateNeeded = false;
+};
+
+const seek = (e) => {
+    const ratio = e.target.valueAsNumber / 100;
+    currentPlayTime = ratio * points.length * timeScale;
+    startTime = Date.now() - currentPlayTime;
+};
+
+const endSeek = () => {
+    timeRecalculateNeeded = true;
+};
+
 window.addEventListener('load', () => {
     floodRoot = detectRootPath();
 
@@ -288,6 +312,12 @@ window.addEventListener('load', () => {
     document.getElementById('thumb').addEventListener('click', toggleExpandInfo);
 
     document.getElementById('replay').addEventListener('click', () => { startTime = Date.now(); });
+
+    const seekbar = document.getElementById('play-seek');
+    seekbar.addEventListener('mousedown', startSeek);
+    seekbar.addEventListener('mouseleave', endSeek);
+    seekbar.addEventListener('mouseup', endSeek);
+    seekbar.addEventListener('input', seek);
 
     // because IE doesn't support NodeList#forEach...
     const speedSelector = document.querySelectorAll('input[name=speed]');
