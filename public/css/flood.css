@@ -7,6 +7,20 @@ html,body {
     overflow: hidden;
 }
 
+#back {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 32px;
+  height: 32px;
+  z-index: 4;
+  border-radius: 50%;
+  cursor: pointer;
+}
+#back:hover {
+  background-color: rgba(255, 255, 255, .2);
+}
+
 #wrapper {
     position: relative;
     width: 100%;

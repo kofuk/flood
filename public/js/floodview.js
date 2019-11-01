@@ -307,6 +307,8 @@ window.addEventListener('load', () => {
 
     loadData(place);
 
+    document.getElementById('back').addEventListener('click', () => { history.back(); });
+
     document.getElementById('info').addEventListener('mouseenter', expandInfo);
     document.getElementById('info').addEventListener('mouseleave', collapseInfo);
     document.getElementById('thumb').addEventListener('click', toggleExpandInfo);
