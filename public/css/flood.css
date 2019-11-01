@@ -45,7 +45,7 @@ html,body {
     border-top: solid 5px rgb(0, 98, 255);
     z-index: 3;
     transition: transform 200ms ease;
-    overflow-y: scroll;
+    overflow-y: auto;
     box-sizing: border-box;
 }
 
@@ -57,7 +57,7 @@ html,body {
 
 #info.bottom {
     width: 100%;
-    min-height: 200px;
+    min-height: 310px;
     bottom: 0;
 }
 
