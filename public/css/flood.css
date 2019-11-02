@@ -121,10 +121,43 @@ html,body {
     font-size: 30px;
 }
 
-#speed {
+.flood-detail {
     margin: 15px 10px 15px 30px;
+}
+
+#speed {
     font-size: 23px;
     color: rgb(0, 80, 240);
+}
+
+#escape {
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.can-escape #escape {
+    background-color: #4fc3f7;
+    border: solid 1px #0050f0;
+}
+
+.can-escape #escape:before {
+    content: "避難可能";
+}
+
+.cannot-escape #escape {
+    background-color: #f48fb1;
+    border: solid 1px #f44336;
+    animation: escapeBlink 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes escapeBlink{
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+    100% {opacity: 1;}
+}
+
+.cannot-escape #escape:before {
+    content: "避難は困難";
 }
 
 #speed:empty {
@@ -150,6 +183,11 @@ html,body {
     color: rgb(0, 98, 255);
     border: solid 3px rgb(0, 98, 255);
     font-size: 25px;
+}
+
+.cannot-escape #card {
+    color: #f44336;
+    border: solid 3px #f44336;
 }
 
 #card:empty {
