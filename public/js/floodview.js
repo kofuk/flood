@@ -344,6 +344,8 @@ window.addEventListener('load', () => {
     seekbar.addEventListener('mousedown', startSeek);
     seekbar.addEventListener('mouseleave', endSeek);
     seekbar.addEventListener('mouseup', endSeek);
+    seekbar.addEventListener('touchstart', startSeek);
+    seekbar.addEventListener('touchend', endSeek);
     seekbar.addEventListener('input', seek);
 
     // because IE doesn't support NodeList#forEach...
