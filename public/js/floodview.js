@@ -90,6 +90,14 @@ const requestNextFrame = () => {
 
     document.getElementById('speed').innerText = speeds[index];
 
+    if (canEscape(speeds[index], depths[index])) {
+        document.body.classList.remove('cannot-escape');
+        document.body.classList.add('can-escape');
+    } else {
+        document.body.classList.remove('can-escape');
+        document.body.classList.add('cannot-escape');
+    }
+
     requestAnimationFrame(requestNextFrame);
 };
 
@@ -291,6 +299,23 @@ const seek = (e) => {
 
 const endSeek = () => {
     timeRecalculateNeeded = true;
+};
+
+const canEscape = (speed, depth) => {
+    // 以下の条件をもとに避難可能な閾値の近似式を求め，それを用いて算出
+    // ◇大人が避難できる条件
+    //   - 流速0m/s -> 推進80cm
+    //   - 0.5m/s -> 60cm
+    //   - 1.0m/s -> 40cm
+    //   - 1.5m/s -> 30cm
+    //   - 2.0m/s -> 20cm
+    //   - 2.5m/s -> 15cm
+    const escapableDepth = 0.8136 * Math.exp( -0.683 * speed )
+    if ( escapableDepth >= depth ) {
+      return true;
+    } else {
+      return false;
+    }
 };
 
 window.addEventListener('load', () => {
