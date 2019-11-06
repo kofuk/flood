@@ -311,11 +311,7 @@ const canEscape = (speed, depth) => {
     //   - 2.0m/s -> 20cm
     //   - 2.5m/s -> 15cm
     const escapableDepth = 0.8136 * Math.exp( -0.683 * speed )
-    if ( escapableDepth >= depth ) {
-      return true;
-    } else {
-      return false;
-    }
+    return escapableDepth >= depth;
 };
 
 window.addEventListener('load', () => {
