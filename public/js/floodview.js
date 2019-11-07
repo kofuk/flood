@@ -34,7 +34,11 @@ const updateDepthCard = (depth, hour, x, y) => {
     depthPanel.innerText = depth;
 };
 
-const drawWater = (depth, hour, points1, points2, offset) => {
+const updateVelocity = (v) => {
+    document.getElementById('speed').innerText = v;
+};
+
+const drawWater = (depth1, depth2, velocity1, velocity2, hour, points1, points2, offset) => {
     drawBgImage();
 
     const ctxt = document.getElementById('flood').getContext('2d');
@@ -59,7 +63,8 @@ const drawWater = (depth, hour, points1, points2, offset) => {
     const cardY = imageHeight * ((points1[depthPlace][1] + (points2[depthPlace][1] - points1[depthPlace][1]) * offset)
                 + (points1[depthPlace + 1][1] + (points2[depthPlace + 1][1] - points1[depthPlace + 1][1]) * offset)) / 2;
 
-    updateDepthCard(depth, hour, cardX, cardY);
+    updateDepthCard(Math.floor((depth1 + (depth2 - depth1) * offset) * 10) / 10, hour, cardX, cardY);
+    updateVelocity(Math.floor((velocity1 + (velocity2 - velocity1) * offset) * 10) / 10);
 };
 
 let startTime;
@@ -88,10 +93,9 @@ const requestNextFrame = () => {
         offset = 1;
     }
 
-    if (index === 0) drawWater(depths[0], index, points[0], points[0], 0);
-    else drawWater(depths[index], index, points[index - 1], points[index], offset);
-
-    document.getElementById('speed').innerText = speeds[index];
+    if (index === 0) drawWater(depths[0], depth[0], speeds[0], speeds[0], index, points[0], points[0], 0);
+    else drawWater(depths[index - 1], depths[index], speeds[index - 1], speeds[index], index,
+                   points[index - 1], points[index], offset);
 
     if (canEscape(speeds[index], depths[index])) {
         document.body.classList.remove('cannot-escape');
