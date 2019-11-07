@@ -24,11 +24,14 @@ const updateDepthCard = (depth, hour, x, y) => {
 
     card.style.transform = 'translateX(' + x + 'px) translateY(' + y + 'px)';
 
-    const depthCard = document.getElementById('depth');
+    const depthCard = document.getElementById('depth-overlay');
     depthCard.innerText = depth;
 
     const hourCard = document.getElementById('hour');
     hourCard.innerText = '（' + hour + '時間後）';
+
+    const depthPanel = document.getElementById('depth');
+    depthPanel.innerText = depth;
 };
 
 const drawWater = (depth, hour, points1, points2, offset) => {
