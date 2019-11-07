@@ -93,7 +93,7 @@ const requestNextFrame = () => {
         offset = 1;
     }
 
-    if (index === 0) drawWater(depths[0], depth[0], speeds[0], speeds[0], index, points[0], points[0], 0);
+    if (index === 0) drawWater(depths[0], depths[0], speeds[0], speeds[0], index, points[0], points[0], 0);
     else drawWater(depths[index - 1], depths[index], speeds[index - 1], speeds[index], index,
                    points[index - 1], points[index], offset);
 
