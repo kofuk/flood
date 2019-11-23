@@ -11,7 +11,7 @@ let timeScale;
 const bgImage = new Image();
 
 const drawBgImage = () => {
-    const ctxt  = document.getElementById('flood').getContext('2d');
+    const ctxt = document.getElementById('flood').getContext('2d');
 
     ctxt.clearRect(0, 0, width, height);
     ctxt.drawImage(bgImage, 0, 0, imageWidth, imageHeight);
@@ -34,11 +34,11 @@ const updateDepthCard = (depth, hour, x, y) => {
     depthPanel.innerText = depth;
 };
 
-const updateVelocity = (v) => {
-    document.getElementById('speed').innerText = v;
-};
+const updateVelocity =
+    (v) => { document.getElementById('speed').innerText = v; };
 
-const drawWater = (depth1, depth2, velocity1, velocity2, hour, points1, points2, offset) => {
+const drawWater = (depth1, depth2, velocity1, velocity2, hour, points1, points2,
+                   offset) => {
     drawBgImage();
 
     const ctxt = document.getElementById('flood').getContext('2d');
@@ -47,24 +47,42 @@ const drawWater = (depth1, depth2, velocity1, velocity2, hour, points1, points2,
 
     ctxt.beginPath();
 
-    ctxt.moveTo(imageWidth * (points1[0][0] + (points2[0][0] - points1[0][0]) * offset),
-                imageHeight * (points1[0][1] + (points2[0][1] - points1[0][1]) * offset));
+    ctxt.moveTo(imageWidth *
+                    (points1[0][0] + (points2[0][0] - points1[0][0]) * offset),
+                imageHeight *
+                    (points1[0][1] + (points2[0][1] - points1[0][1]) * offset));
 
     for (let i = 1; i < points1.length; i++) {
-        ctxt.lineTo(imageWidth * (points1[i][0] + (points2[i][0] - points1[i][0]) * offset),
-                    imageHeight * (points1[i][1] + (points2[i][1] - points1[i][1]) * offset));
+        ctxt.lineTo(imageWidth * (points1[i][0] +
+                                  (points2[i][0] - points1[i][0]) * offset),
+                    imageHeight * (points1[i][1] +
+                                   (points2[i][1] - points1[i][1]) * offset));
     }
 
     ctxt.closePath();
     ctxt.fill();
 
-    const cardX = imageWidth * ((points1[depthPlace][0] + (points2[depthPlace][0] - points1[depthPlace][0]) * offset)
-                + (points1[depthPlace + 1][0] + (points2[depthPlace + 1][0] - points1[depthPlace + 1][0]) * offset)) / 2 - 60;
-    const cardY = imageHeight * ((points1[depthPlace][1] + (points2[depthPlace][1] - points1[depthPlace][1]) * offset)
-                + (points1[depthPlace + 1][1] + (points2[depthPlace + 1][1] - points1[depthPlace + 1][1]) * offset)) / 2;
+    const cardX =
+        imageWidth *
+            ((points1[depthPlace][0] +
+              (points2[depthPlace][0] - points1[depthPlace][0]) * offset) +
+             (points1[depthPlace + 1][0] +
+              (points2[depthPlace + 1][0] - points1[depthPlace + 1][0]) *
+                  offset)) /
+            2 -
+        60;
+    const cardY =
+        imageHeight *
+        ((points1[depthPlace][1] +
+          (points2[depthPlace][1] - points1[depthPlace][1]) * offset) +
+         (points1[depthPlace + 1][1] +
+          (points2[depthPlace + 1][1] - points1[depthPlace + 1][1]) * offset)) /
+        2;
 
-    updateDepthCard(Math.floor((depth1 + (depth2 - depth1) * offset) * 10) / 10, hour, cardX, cardY);
-    updateVelocity(Math.floor((velocity1 + (velocity2 - velocity1) * offset) * 10) / 10);
+    updateDepthCard(Math.floor((depth1 + (depth2 - depth1) * offset) * 10) / 10,
+                    hour, cardX, cardY);
+    updateVelocity(
+        Math.floor((velocity1 + (velocity2 - velocity1) * offset) * 10) / 10);
 };
 
 let startTime;
@@ -74,7 +92,8 @@ let points;
 let speeds;
 
 const updateSeekBar = () => {
-    document.getElementById('play-seek').valueAsNumber = Math.floor(currentPlayTime / (points.length * timeScale) * 100);
+    document.getElementById('play-seek').valueAsNumber =
+        Math.floor(currentPlayTime / (points.length * timeScale) * 100);
 };
 
 const requestNextFrame = () => {
@@ -93,9 +112,13 @@ const requestNextFrame = () => {
         offset = 1;
     }
 
-    if (index === 0) drawWater(depths[0], depths[0], speeds[0], speeds[0], index, points[0], points[0], 0);
-    else drawWater(depths[index - 1], depths[index], speeds[index - 1], speeds[index], index,
-                   points[index - 1], points[index], offset);
+    if (index === 0)
+        drawWater(depths[0], depths[0], speeds[0], speeds[0], index, points[0],
+                  points[0], 0);
+    else
+        drawWater(depths[index - 1], depths[index], speeds[index - 1],
+                  speeds[index], index, points[index - 1], points[index],
+                  offset);
 
     if (canEscape(speeds[index], depths[index])) {
         document.body.classList.remove('cannot-escape');
@@ -125,13 +148,16 @@ const measure = () => {
         infoPanel.classList.add('right');
         infoPanel.style.height = '100%';
         infoPanel.style.width = '' + (width - imageWidth) + 'px';
-        const translateWidth = width - imageWidth < 300 ? 300 - (width - imageWidth) : 0;
+        const translateWidth =
+            width - imageWidth < 300 ? 300 - (width - imageWidth) : 0;
         infoPanel.style.transform = 'translateX(' + translateWidth + 'px)';
 
         thumb.style.right = '' + (infoPanel.clientWidth) + 'px';
         thumb.style.bottom = '0';
-        if (width - imageWidth < 50) thumb.classList.add('enabled');
-        else thumb.classList.remove('enabled');
+        if (width - imageWidth < 50)
+            thumb.classList.add('enabled');
+        else
+            thumb.classList.remove('enabled');
         thumb.style.transform = 'translateX(' + translateWidth + 'px)';
         thumb.classList.remove('bottom');
         thumb.classList.add('right');
@@ -143,32 +169,34 @@ const measure = () => {
         infoPanel.classList.add('bottom');
         infoPanel.style.width = '100%';
         infoPanel.style.height = '' + (height - imageHeight) + 'px';
-        const translateHeight = height - imageHeight < 240 ? 240 - (height - imageHeight) : 0;
+        const translateHeight =
+            height - imageHeight < 240 ? 240 - (height - imageHeight) : 0;
         infoPanel.style.transform = 'translateY(' + translateHeight + 'px)';
 
         thumb.style.bottom = '' + (infoPanel.clientHeight) + 'px';
         thumb.style.right = '0';
-        if (height - imageHeight < 100) thumb.classList.add('enabled');
-        else thumb.classList.remove('enabled');
+        if (height - imageHeight < 100)
+            thumb.classList.add('enabled');
+        else
+            thumb.classList.remove('enabled');
         thumb.style.transform = 'translateY(' + translateHeight + 'px)';
         thumb.classList.remove('right');
         thumb.classList.add('bottom');
     }
-
 };
 
-const expandInfo = () => {
-    document.getElementById('info').classList.add('expanded');
-};
+const expandInfo =
+    () => { document.getElementById('info').classList.add('expanded'); };
 
-const collapseInfo = () => {
-    document.getElementById('info').classList.remove('expanded');
-};
+const collapseInfo =
+    () => { document.getElementById('info').classList.remove('expanded'); };
 
 const toggleExpandInfo = () => {
     const infoPanel = document.getElementById('info');
-    if (infoPanel.classList.contains('expanded')) collapseInfo();
-    else expandInfo();
+    if (infoPanel.classList.contains('expanded'))
+        collapseInfo();
+    else
+        expandInfo();
 };
 
 const parseQuery = () => {
@@ -176,7 +204,8 @@ const parseQuery = () => {
     const start = uri.indexOf("?") + 1;
     const end = uri.indexOf("#") >= 0 ? uri.indexOf("#") : uri.length;
 
-    if (start <= 0) return new Map();
+    if (start <= 0)
+        return new Map();
 
     const queryString = uri.substring(start, end);
 
@@ -213,7 +242,7 @@ const init = (resp) => {
     bgImage.src = floodRoot + data['img'];
     bgImage.addEventListener('load', () => {
         imageAspect = bgImage.naturalWidth / bgImage.naturalHeight;
-        const canvas  = document.getElementById('flood');
+        const canvas = document.getElementById('flood');
 
         measure();
 
@@ -233,7 +262,6 @@ const init = (resp) => {
     document.getElementById('name').innerText = data['name'];
 
     data['info'].forEach((e) => {
-
         const root = document.createElement('div');
         root.classList.add('info-element');
 
@@ -258,7 +286,8 @@ const loadData = (name) => {
             if (200 <= xhr.status && xhr.status < 300) {
                 init(xhr.responseText);
             } else {
-                document.getElementById('name').innerText = 'エラーが発生しました';
+                document.getElementById('name').innerText =
+                    'エラーが発生しました';
             }
         }
     });
@@ -277,9 +306,12 @@ const setTimeScale = (state) => {
     }
 
     let newScale;
-    if (state === 'speed-fast') newScale = 300;
-    else if (state === 'speed-normal') newScale = 1000;
-    else newScale = 2000;
+    if (state === 'speed-fast')
+        newScale = 300;
+    else if (state === 'speed-normal')
+        newScale = 1000;
+    else
+        newScale = 2000;
 
     const now = Date.now();
     const passed = now - startTime;
@@ -294,9 +326,7 @@ const detectRootPath = () => {
     return location.replace(/\/(flood.html)?(\?.+)?(\#.+)?$/, '');
 };
 
-const startSeek = () => {
-    timeRecalculateNeeded = false;
-};
+const startSeek = () => { timeRecalculateNeeded = false; };
 
 const seek = (e) => {
     const ratio = e.target.valueAsNumber / 100;
@@ -304,9 +334,7 @@ const seek = (e) => {
     startTime = Date.now() - currentPlayTime;
 };
 
-const endSeek = () => {
-    timeRecalculateNeeded = true;
-};
+const endSeek = () => { timeRecalculateNeeded = true; };
 
 const canEscape = (speed, depth) => {
     // 以下の条件をもとに避難可能な閾値の近似式を求め，それを用いて算出
@@ -317,7 +345,7 @@ const canEscape = (speed, depth) => {
     //   - 1.5m/s -> 30cm
     //   - 2.0m/s -> 20cm
     //   - 2.5m/s -> 15cm
-    const escapableDepth = 0.8136 * Math.exp( -0.683 * speed )
+    const escapableDepth = 0.8136 * Math.exp(-0.683 * speed)
     return escapableDepth >= depth;
 };
 
@@ -335,13 +363,17 @@ window.addEventListener('load', () => {
 
     loadData(place);
 
-    document.getElementById('back').addEventListener('click', () => { history.back(); });
+    document.getElementById('back').addEventListener('click',
+                                                     () => { history.back(); });
 
     document.getElementById('info').addEventListener('mouseenter', expandInfo);
-    document.getElementById('info').addEventListener('mouseleave', collapseInfo);
-    document.getElementById('thumb').addEventListener('click', toggleExpandInfo);
+    document.getElementById('info').addEventListener('mouseleave',
+                                                     collapseInfo);
+    document.getElementById('thumb').addEventListener('click',
+                                                      toggleExpandInfo);
 
-    document.getElementById('replay').addEventListener('click', () => { startTime = Date.now(); });
+    document.getElementById('replay').addEventListener(
+        'click', () => { startTime = Date.now(); });
 
     const seekbar = document.getElementById('play-seek');
     seekbar.addEventListener('mousedown', startSeek);
@@ -355,10 +387,9 @@ window.addEventListener('load', () => {
     const speedSelector = document.querySelectorAll('input[name=speed]');
     for (let i = 0; i < speedSelector.length; i++) {
         const e = speedSelector[i];
-        if (e.checked) setTimeScale(e.id);
-
-        e.addEventListener('change', () => {
+        if (e.checked)
             setTimeScale(e.id);
-        });
+
+        e.addEventListener('change', () => { setTimeScale(e.id); });
     }
 });

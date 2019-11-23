@@ -37,17 +37,22 @@ const redisplay = () => {
     let rightmost = -offsetX;
 
     for (let i = chunkX; i < CHUNK_COUNT_X; i++) {
-        if (rightmost >= width) break;
+        if (rightmost >= width)
+            break;
 
         for (let j = chunkY; j < CHUNK_COUNT_Y; j++) {
-            if (bottommost >= height) break;
+            if (bottommost >= height)
+                break;
 
             const chunkName = '' + i + '-' + j;
 
-            if (!maps.has(chunkName)) loadMap(chunkName);
+            if (!maps.has(chunkName))
+                loadMap(chunkName);
             else {
-                if (maps.get(chunkName).complete && maps.get(chunkName).width !== 0) {
-                    ctxt.drawImage(maps.get(chunkName), rightmost, bottommost, CHUNK_WIDTH, CHUNK_HEIGHT);
+                if (maps.get(chunkName).complete &&
+                    maps.get(chunkName).width !== 0) {
+                    ctxt.drawImage(maps.get(chunkName), rightmost, bottommost,
+                                   CHUNK_WIDTH, CHUNK_HEIGHT);
                 }
             }
 
@@ -65,24 +70,30 @@ const redisplay = () => {
     if (typeof points !== 'undefined') {
         for (let i = 0; i < points.length; i++) {
             const point = points[i];
-            if (rangeLeft - MARK_RADIUS <= point['x'] && point['x'] <= rangeRight + MARK_RADIUS
-                && rangeTop - MARK_RADIUS <= point['y'] && point['y'] <= rangeButtom + MARK_RADIUS) {
+            if (rangeLeft - MARK_RADIUS <= point['x'] &&
+                point['x'] <= rangeRight + MARK_RADIUS &&
+                rangeTop - MARK_RADIUS <= point['y'] &&
+                point['y'] <= rangeButtom + MARK_RADIUS) {
 
                 ctxt.fillStyle = 'rgba(0, 0, 0, .03)';
                 for (let i = 1; i <= 5; i++) {
                     ctxt.beginPath();
-                    ctxt.arc(point['x'] - rangeLeft + i * .8, point['y'] - rangeTop + i, MARK_RADIUS, 0, 2 * Math.PI, false);
+                    ctxt.arc(point['x'] - rangeLeft + i * .8,
+                             point['y'] - rangeTop + i, MARK_RADIUS, 0,
+                             2 * Math.PI, false);
                     ctxt.fill();
                 }
 
                 ctxt.fillStyle = 'rgb(0, 98, 255)';
                 ctxt.beginPath();
-                ctxt.arc(point['x'] - rangeLeft, point['y'] - rangeTop, MARK_RADIUS, 0, 2 * Math.PI, false);
+                ctxt.arc(point['x'] - rangeLeft, point['y'] - rangeTop,
+                         MARK_RADIUS, 0, 2 * Math.PI, false);
                 ctxt.fill();
 
                 ctxt.fillStyle = 'rgb(33, 118, 255)';
                 ctxt.beginPath();
-                ctxt.arc(point['x'] - rangeLeft, point['y'] - rangeTop, MARK_RADIUS * .97, 0, 2 * Math.PI, false);
+                ctxt.arc(point['x'] - rangeLeft, point['y'] - rangeTop,
+                         MARK_RADIUS * .97, 0, 2 * Math.PI, false);
                 ctxt.fill();
             }
         }
@@ -91,12 +102,10 @@ const redisplay = () => {
     requestAnimationFrame(redisplay);
 };
 
-const postRedisplay = () => {
-    needRedisplay = true;
-};
+const postRedisplay = () => { needRedisplay = true; };
 
 const loadMap = (chunkName) => {
-    const  img = new Image();
+    const img = new Image();
     img.src = floodRoot + '/restricted/images/map/' + chunkName + '.png';
     img.addEventListener('load', postRedisplay);
     maps.set(chunkName, img);
@@ -124,7 +133,7 @@ const adjustCanvas = () => {
     }
 
     if (height > CHUNK_HEIGHT * CHUNK_COUNT_Y) {
-        endCond.chunkY  = 0;
+        endCond.chunkY = 0;
         endCond.offsetY = 0;
     } else {
         endCond.chunkY = CHUNK_COUNT_Y - 1 - Math.floor(height / CHUNK_HEIGHT);
@@ -140,8 +149,9 @@ const changeCursor = (e) => {
     const x = e.clientX + chunkX * CHUNK_WIDTH + offsetX;
     const y = e.clientY + chunkY * CHUNK_HEIGHT + offsetY;
 
-    const point = points.find(e =>
-        Math.pow(e['x'] - x, 2) + Math.pow(e['y'] - y, 2) <= MARK_RADIUS * MARK_RADIUS);
+    const point =
+        points.find(e => Math.pow(e['x'] - x, 2) + Math.pow(e['y'] - y, 2) <=
+                         MARK_RADIUS * MARK_RADIUS);
     const selecting = typeof point !== 'undefined';
 
     const canvas = document.getElementById('map');
@@ -149,10 +159,14 @@ const changeCursor = (e) => {
 
     if (selecting) {
         if (prevDescriptionId !== point['name']) {
-            document.getElementById('description-place-name').innerText = point['display_name'];
-            document.getElementById('description-thumbnail').src = floodRoot + point['img'];
-            document.getElementById('description-address').innerText = point['address'];
-            document.getElementById('description-card').classList.remove('hidden');
+            document.getElementById('description-place-name').innerText =
+                point['display_name'];
+            document.getElementById('description-thumbnail').src =
+                floodRoot + point['img'];
+            document.getElementById('description-address').innerText =
+                point['address'];
+            document.getElementById('description-card')
+                .classList.remove('hidden');
             prevDescriptionId = point['name'];
         }
     } else {
@@ -173,93 +187,91 @@ const mouseDown = (e) => {
     prevY = e.clientY - canvasRect.top;
 };
 
-const mouseMove = (e) => {
-    isMouseMoved = true;
-    changeCursor(e);
+const mouseMove =
+    (e) => {
+        isMouseMoved = true;
+        changeCursor(e);
 
-    if (!isMouseDown) return;
+        if (!isMouseDown)
+            return;
 
-    const currentX = e.clientX - canvasRect.left;
-    const currentY = e.clientY - canvasRect.top;
+        const currentX = e.clientX - canvasRect.left;
+        const currentY = e.clientY - canvasRect.top;
 
-    const moveX = prevX - currentX;
-    const moveY = prevY - currentY;
+        const moveX = prevX - currentX;
+        const moveY = prevY - currentY;
 
-    offsetX += moveX;
-    offsetY += moveY;
+        offsetX += moveX;
+        offsetY += moveY;
 
-    for (;;) {
-        if (chunkX < endCond.chunkX && offsetX >= CHUNK_WIDTH) {
-            offsetX -= CHUNK_WIDTH;
-            ++chunkX;
-        } else if (chunkX > 0 && offsetX < 0) {
-            offsetX += CHUNK_WIDTH;
-            --chunkX;
-        } else {
-            if (chunkX <= 0 && offsetX < 0) {
-                chunkX = 0;
-                offsetX = 0;
-            } else if (chunkX >= endCond.chunkX && offsetX > endCond.offsetX) {
-                chunkX = endCond.chunkX;
-                offsetX = endCond.offsetX;
+        for (;;) {
+            if (chunkX < endCond.chunkX && offsetX >= CHUNK_WIDTH) {
+                offsetX -= CHUNK_WIDTH;
+                ++chunkX;
+            } else if (chunkX > 0 && offsetX < 0) {
+                offsetX += CHUNK_WIDTH;
+                --chunkX;
+            } else {
+                if (chunkX <= 0 && offsetX < 0) {
+                    chunkX = 0;
+                    offsetX = 0;
+                } else if (chunkX >= endCond.chunkX &&
+                           offsetX > endCond.offsetX) {
+                    chunkX = endCond.chunkX;
+                    offsetX = endCond.offsetX;
+                }
+
+                break;
             }
-
-            break;
         }
+
+        for (;;) {
+            if (chunkY < endCond.chunkY && offsetY >= CHUNK_HEIGHT) {
+                offsetY -= CHUNK_HEIGHT;
+                ++chunkY;
+            } else if (chunkY > 0 && offsetY < 0) {
+                offsetY += CHUNK_HEIGHT;
+                --chunkY;
+            } else {
+                if (chunkY <= 0 && offsetY < 0) {
+                    chunkY = 0;
+                    offsetY = 0;
+                } else if (chunkY >= endCond.chunkY &&
+                           offsetY > endCond.offsetY) {
+                    chunkY = endCond.chunkY;
+                    offsetY = endCond.offsetY;
+                }
+
+                break;
+            }
+        }
+
+        postRedisplay();
+
+        prevX = currentX;
+        prevY = currentY;
     }
 
-    for (;;) {
-        if (chunkY < endCond.chunkY && offsetY >= CHUNK_HEIGHT) {
-            offsetY -= CHUNK_HEIGHT;
-            ++chunkY;
-        } else if (chunkY > 0 && offsetY < 0) {
-            offsetY += CHUNK_HEIGHT;
-            --chunkY;
-        } else {
-            if (chunkY <= 0 && offsetY < 0) {
-                chunkY = 0;
-                offsetY = 0;
-            } else if (chunkY >= endCond.chunkY && offsetY > endCond.offsetY) {
-                chunkY = endCond.chunkY;
-                offsetY = endCond.offsetY;
-            }
+const mouseUp = () => { isMouseDown = false; };
 
-            break;
-        }
-    }
+const touchStart = (e) => { mouseDown(e.changedTouches[0]); };
 
-    postRedisplay();
+const touchMove = (e) => { mouseMove(e.changedTouches[0]); };
 
-    prevX = currentX;
-    prevY = currentY;
-}
-
-const mouseUp = () => {
-    isMouseDown = false;
-};
-
-const touchStart = (e) => {
-    mouseDown(e.changedTouches[0]);
-};
-
-const touchMove = (e) => {
-    mouseMove(e.changedTouches[0]);
-};
-
-const touchEnd = () => {
-    mouseUp();
-};
+const touchEnd = () => { mouseUp(); };
 
 const click = (e) => {
-    if (isMouseMoved) return;
+    if (isMouseMoved)
+        return;
 
     const x = e.clientX + chunkX * CHUNK_WIDTH + offsetX;
     const y = e.clientY + chunkY * CHUNK_HEIGHT + offsetY;
 
-    const point = points
-        .find(e => Math.pow(e['x'] - x, 2) + Math.pow(e['y'] - y, 2) <= MARK_RADIUS * MARK_RADIUS);
-    if (typeof point !== 'undefined') location.href =
-        floodRoot + '/flood.html?p=' + point['name'];
+    const point =
+        points.find(e => Math.pow(e['x'] - x, 2) + Math.pow(e['y'] - y, 2) <=
+                         MARK_RADIUS * MARK_RADIUS);
+    if (typeof point !== 'undefined')
+        location.href = floodRoot + '/flood.html?p=' + point['name'];
 };
 
 const initMapPosition = () => {
@@ -278,7 +290,7 @@ const initMapPosition = () => {
 
 const loadPoints = () => {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', floodRoot +  '/restricted/points.json');
+    xhr.open('GET', floodRoot + '/restricted/points.json');
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState === 4) {
             points = JSON.parse(xhr.responseText);
@@ -317,14 +329,11 @@ window.addEventListener('load', () => {
     const infoPanel = document.getElementById('info-panel');
 
     document.getElementById('info-button')
-            .addEventListener('click', () => {
-                infoPanel.style.display = 'block';
-            });
+        .addEventListener('click',
+                          () => { infoPanel.style.display = 'block'; });
 
     document.getElementById('info-panel-close')
-            .addEventListener('click', () => {
-                infoPanel.style.display = 'none';
-            });
+        .addEventListener('click', () => { infoPanel.style.display = 'none'; });
 
     loadPoints();
 });
