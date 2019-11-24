@@ -328,6 +328,17 @@ const loadPoints = () => {
     xhr.send();
 };
 
+const loadCopyright = () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', floodRoot + '/restricted/map-copyright.txt');
+    xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState === 4) {
+            document.getElementById('map-copyright').innerText = xhr.responseText;
+        }
+    });
+    xhr.send();
+};
+
 const detectRootPath = () => {
     const location = window.location.href;
 
@@ -353,6 +364,7 @@ window.addEventListener('load', () => {
         .addEventListener('click', () => { infoPanel.style.display = 'none'; });
 
     loadPoints();
+    loadCopyright();
 });
 
 window.addEventListener('resize', () => {

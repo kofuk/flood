@@ -125,3 +125,21 @@ body {
 .info-panel-title {
     font-size: 25px;
 }
+
+#map-copyright:not(:empty) {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    padding: 5px;
+    pointer-events: none;
+    color: #111;
+    text-shadow: 0 0 2px white,
+                 -1px 0 2px white, -1px -1px 2px white,
+                 0px -1px 2px white, 1px -1px 2px white,
+                 1px 0 2px white, 1px 1px 2px white,
+                 0 1px 2px white, -1px 1px 2px white;
+}
+
+#map-copyright:empty {
+    display: none;
+}
