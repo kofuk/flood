@@ -257,6 +257,7 @@ const init = (resp) => {
     document.title = data['name'] + 'の浸水予想 - 洪水シミュレータ';
 
     bgImage.src = floodRoot + data['img'];
+    bgImage.addEventListener('error', displayNetworkError);
     bgImage.addEventListener('load', () => {
         imageAspect = bgImage.naturalWidth / bgImage.naturalHeight;
         const canvas = document.getElementById('flood');
@@ -308,6 +309,7 @@ const loadData = (name) => {
             }
         }
     });
+    xhr.addEventListener('error', displayNetworkError);
     xhr.open('GET', floodRoot + '/restricted/data/' + name + '.json');
     xhr.send();
 };

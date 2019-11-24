@@ -125,6 +125,7 @@ const loadMap = (chunkName) => {
     const img = new Image();
     img.src = floodRoot + '/restricted/images/map/' + chunkName + '.png';
     img.addEventListener('load', postRedisplay);
+    img.addEventListener('error', displayNetworkError);
     maps.set(chunkName, img);
 };
 
@@ -325,6 +326,7 @@ const loadPoints = () => {
             postRedisplay();
         }
     });
+    xhr.addEventListener('error', displayNetworkError);
     xhr.send();
 };
 
@@ -333,7 +335,8 @@ const loadCopyright = () => {
     xhr.open('GET', floodRoot + '/restricted/map-copyright.txt');
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState === 4) {
-            document.getElementById('map-copyright').innerText = xhr.responseText;
+            document.getElementById('map-copyright').innerText =
+                xhr.responseText;
         }
     });
     xhr.send();

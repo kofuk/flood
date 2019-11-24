@@ -34,13 +34,15 @@ fi
 mkdir flood
 cp -r public/* flood/
 
-for f in $(find flood/ -name '*.js'); do
-    java -jar "$CLOSURE_COMPILER" -O ADVANCED --env BROWSER "$f" --js_output_file "${f%.js}.min.js"
+for f in $(find flood/ -name '*.js' -not -name 'common.js'); do
+    java -jar "$CLOSURE_COMPILER" -O ADVANCED --env BROWSER "$f" flood/js/common.js --js_output_file "${f%.js}.min.js"
     rm -f "$f"
 done
 
+rm -f flood/js/common.js
+
 for f in $(find flood/ -name '*.html'); do
-    sed -i 's/\.js/\.min\.js/g' "$f"
+    sed -i -E -e 's/^.+common\.js.+$//g' -e 's/\.js/\.min\.js/g' "$f"
 done
 
 tar -czvf flood.tar.gz flood/
